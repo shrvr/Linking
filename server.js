@@ -5,7 +5,7 @@ const cors = require('cors');
 const compression = require('compression');
 const keys = require('./config/keys');
 
-const PORT = process.env.PORT | 8080;
+const PORT = process.env.PORT || 8080;
 // const api = require('./api');
 
 const app = express();
