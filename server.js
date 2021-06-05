@@ -16,9 +16,6 @@ app.get('/', (req, res) => {
     res.send("server working");
 })
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.listen(PORT, () => {
     console.log(`Server running on at http://localhost:${PORT}`)
 });
