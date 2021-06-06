@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -37,3 +38,43 @@
   },
   "private": true
 }
+||||||| empty tree
+=======
+{
+  "name": "linking",
+  "version": "1.0.0",
+  "description": "university project for advanced software engineering",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "concurrently": "^6.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.12",
+    "nodemon": "^2.0.7"
+  },
+  "engines": {
+    "node": "14.16.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maniksharma98144/Linking.git"
+  },
+  "author": "Manik Sharma, Shivang Soni, Kanika Aggarwal, Naisarg Pandya, Shurvir Shishodiya, Jaydeep Patel, Parth Patel, Gurjit Vohra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maniksharma98144/Linking/issues"
+  },
+  "homepage": "https://github.com/maniksharma98144/Linking#readme"
+}
+>>>>>>> e75620d8131064630b83aede581902dc137420a8
