@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
-import {Dimensions} from 'react-native';
+import { StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("screen");
 const background_width = width * 1.2;
 
-const signUpStyle = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -13,8 +13,6 @@ const signUpStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#02a3bb",
-    // borderWidth: 3,
-    // borderColor: "blue",
   },
   footer: {
     flex: 4,
@@ -36,7 +34,6 @@ const signUpStyle = StyleSheet.create({
     marginBottom: -7,
     alignSelf: "center",
     fontSize: 20,
-    // marginTop: 10,
   },
   block: {
     padding: 15,
@@ -53,7 +50,6 @@ const signUpStyle = StyleSheet.create({
     alignItems: "center",
   },
   block_icon: {
-    // padding: 5,
     marginRight: 15,
   },
   block_text: {
@@ -83,4 +79,4 @@ const signUpStyle = StyleSheet.create({
   },
 });
 
-export default signUpStyle;
+export default style;

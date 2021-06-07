@@ -1,4 +1,4 @@
-import React, { isValidElement, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,15 +6,14 @@ import {
   Switch,
   TouchableOpacity,
   SafeAreaView,
-  // KeyboardAvoidingView,
+  KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import signUpStyle  from './style'
+import style from "./style";
 
 export default function SignUp({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -23,13 +22,15 @@ export default function SignUp({ navigation }) {
   const [formData, setformData] = useState({
     FirstName: "",
     LastName: "",
-    Age: 0,
+    Age: "",
+    Phone: "",
     Email: "",
     Password: "",
-    isValidFirst: true,
-    isValidEmail: true,
-    btnState: true,
-    nullInputs: false,
+    isValidFirst: false,
+    isValidLast: false,
+    isValidAge: false,
+    isValidEmail: false,
+    isValidPassword: false,
   });
 
   const handle_firstname = (value) => {
@@ -37,121 +38,218 @@ export default function SignUp({ navigation }) {
       ...currentState,
       FirstName: value,
     }));
-  };
-
-  const handleSignUpValidation = () => {
-    const f = formData.FirstName.trim();
-    if (f === "") {
-        setformData((currentState) => ({
-      ...currentState,
-      isValidFirst: false,
-    }));
-      
+    let regexFirst = /^[a-zA-Z\s]+$/;
+    if (regexFirst.test(value) && value.length > 0) {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidFirst: true,
+      }));
+    } else {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidFirst: false,
+      }));
     }
   };
+  const handle_lastname = (value) => {
+    setformData((currentState) => ({
+      ...currentState,
+      LastName: value,
+    }));
+    let regexLast = /^[a-zA-Z\s]+$/;
+    if (regexLast.test(value) && value.length > 0) {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidLast: true,
+      }));
+    } else {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidLast: false,
+      }));
+    }
+  };
+  const handle_age = (value) => {
+    setformData((currentState) => ({
+      ...currentState,
+      Age: value,
+    }));
+    let regexAge = /^\d+$/;
+    if (regexAge.test(value) && Number(value) > 17) {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidAge: true,
+      }));
+    } else {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidAge: false,
+      }));
+    }
+  };
+  const handle_email = (value) => {
+    setformData((currentState) => ({
+      ...currentState,
+      Email: value,
+    }));
+    let regexAge =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (regexAge.test(String(value).toLowerCase())) {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidEmail: true,
+      }));
+    } else {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidEmail: false,
+      }));
+    }
+  };
+  const handle_password = (value) => {
+    setformData((currentState) => ({
+      ...currentState,
+      Password: value,
+    }));
+    if (value.length > 7) {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidPassword: true,
+      }));
+    } else {
+      setformData((currentState) => ({
+        ...currentState,
+        isValidPassword: false,
+      }));
+    }
+  };
+  // for entering data in backend
+  const handleSignUpValidation = () => {};
 
   return (
-    <View style={{ flex: 1 }} behavior="height">
-      {/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
-      <SafeAreaView style={signUpStyle.container}>
-        <View style={signUpStyle.header}>
-          <Text style={signUpStyle.title}>Welcome!</Text>
-          <Text style={signUpStyle.sub_title}>Create new account</Text>
-        </View>
-        <View style={signUpStyle.footer}>
-          <View style={signUpStyle.block}>
-            <AntDesign
-              name="user"
-              size={24}
-              color="black"
-              style={signUpStyle.block_icon}
-            />
-            <TextInput
-              autoCapitalize="none"
-              placeholder="First Name"
-              style={signUpStyle.block_text}
-              value={formData.FirstName}
-              onChangeText={(value) => handle_firstname(value)}
-            ></TextInput>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <SafeAreaView style={style.container}>
+          <View style={style.header}>
+            <Text style={style.title}>Welcome!</Text>
+            <Text style={style.sub_title}>Create new account</Text>
           </View>
-          <View style={signUpStyle.block}>
-            <AntDesign
-              name="user"
-              size={24}
-              color="black"
-              style={signUpStyle.block_icon}
-            />
-            <TextInput
-              autoCapitalize="none"
-              placeholder="Last Name"
-              style={signUpStyle.block_text}
-            ></TextInput>
-          </View>
-          <View style={signUpStyle.block}>
-            <Feather
-              style={signUpStyle.block_icon}
-              name="calendar"
-              size={24}
-              color="black"
-            />
-            <TextInput
-              autoCapitalize="none"
-              placeholder="Age"
-              style={signUpStyle.block_text}
-            ></TextInput>
-          </View>
-          <View style={signUpStyle.block}>
-            <Fontisto
-              style={signUpStyle.block_icon}
-              name="email"
-              size={24}
-              color="black"
-            />
-            <TextInput
-              autoCapitalize="none"
-              placeholder="Email"
-              style={signUpStyle.block_text}
-            ></TextInput>
-          </View>
-
-          <View style={signUpStyle.block}>
-            <MaterialIcons
-              style={signUpStyle.block_icon}
-              name="lock-outline"
-              size={24}
-              color="black"
-            />
-            <TextInput
-              style={signUpStyle.block_text}
-              placeholder="Password"
-              secureTextEntry={true}
-              autoCapitalize="none"
-            ></TextInput>
-          </View>
-          <View style={signUpStyle.terms}>
-            <Switch
-              // color="black"
-              // trackcolor={{ true: "#02495d" }}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            ></Switch>
-            <Text style={signUpStyle.terms_text}>Agree to </Text>
-            <TouchableOpacity>
-              <Text style={signUpStyle.terms_link}>terms and conditions</Text>
+          <View style={style.footer}>
+            <View style={style.block}>
+              <AntDesign
+                name="user"
+                size={24}
+                color="black"
+                style={style.block_icon}
+              />
+              <TextInput
+                autoCapitalize="none"
+                placeholder="First Name"
+                style={style.block_text}
+                value={formData.FirstName}
+                onChangeText={(value) => handle_firstname(value)}
+              ></TextInput>
+            </View>
+            <View style={style.block}>
+              <AntDesign
+                name="user"
+                size={24}
+                color="black"
+                style={style.block_icon}
+              />
+              <TextInput
+                autoCapitalize="none"
+                placeholder="Last Name"
+                style={style.block_text}
+                value={formData.LastName}
+                onChangeText={(value) => handle_lastname(value)}
+              ></TextInput>
+            </View>
+            <View style={style.block}>
+              <Feather
+                style={style.block_icon}
+                name="calendar"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                autoCapitalize="none"
+                placeholder="Age"
+                style={style.block_text}
+                value={formData.Age}
+                onChangeText={(value) => handle_age(value)}
+              ></TextInput>
+            </View>
+            <View style={style.block}>
+              <Feather
+                style={style.block_icon}
+                name="phone"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                autoCapitalize="none"
+                placeholder="Phone No. (optional)"
+                style={style.block_text}
+              ></TextInput>
+            </View>
+            <View style={style.block}>
+              <Fontisto
+                style={style.block_icon}
+                name="email"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                autoCapitalize="none"
+                placeholder="Email"
+                style={style.block_text}
+                value={formData.Email}
+                onChangeText={(value) => handle_email(value)}
+              ></TextInput>
+            </View>
+            <View style={style.block}>
+              <MaterialIcons
+                style={style.block_icon}
+                name="lock-outline"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                style={style.block_text}
+                placeholder="Password"
+                secureTextEntry={true}
+                autoCapitalize="none"
+                value={formData.Password}
+                onChangeText={(value) => handle_password(value)}
+              ></TextInput>
+            </View>
+            <View style={style.terms}>
+              <Switch onValueChange={toggleSwitch} value={isEnabled}></Switch>
+              <Text style={style.terms_text}>Agree to </Text>
+              <TouchableOpacity>
+                <Text style={style.terms_link}>terms and conditions</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onClick={handleSignUpValidation}
+              disabled={
+                !(
+                  isEnabled &&
+                  formData.isValidLast &&
+                  formData.isValidFirst &&
+                  formData.isValidAge &&
+                  formData.isValidEmail &&
+                  formData.isValidPassword
+                )
+              }
+              style={style.sign_up}
+            >
+              <Text style={style.btn_text}>Sign Up</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            onClick={handleSignUpValidation}
-            disabled={!isEnabled  || !formData.isValidFirst}
-            style={signUpStyle.sign_up}
-          >
-            <Text style={signUpStyle.btn_text}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-      {/* </ScrollView> */}
-    </View>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
