@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "./Components/Home";
-import SignIn from "./Components/SignIn";
-import SignUp from "./Components/SignUp";
-import Main from "./Components/Main";
+
 import { createStackNavigator } from "@react-navigation/stack";
-import HomePage from "./Components/HomePage";
+import SignIn from "./Screens/SignInScreen/SignIn";
+import SignUp from "./Screens/SignUpScreen/SignUp";
+
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import MyProfile from "./Components/MyProfile";
-import MyTrips from "./Components/MyTrips";
-import SignOut from "./Components/SignOut";
+import HomePage from "./Screens/HomeScreen/HomePage";
+import MyProfile from "./Screens/HomeScreen/MyProfile";
+import MyTrips from "./Screens/HomeScreen/MyTrips";
+import SignOut from "./Screens/HomeScreen/SignOut";
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -18,16 +19,14 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
 
-  const [userToken, setUserToken] = useState("abc");
+  const [userToken, setUserToken] = useState("");
 
   return (
       <NavigationContainer>
           {userToken == null | userToken == "" ?
         <Stack.Navigator headerMode="float">
-          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
         :
 
