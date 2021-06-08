@@ -1,0 +1,20 @@
+https://enigmatic-temple-22499.herokuapp.com/api
+
+POST /user/signIn { userId : string, password : string } {_user : id}
+POST /user/signUp { firstName:string, lastName:string, userId:string, password:string, age:number, terms:boolean, mobile:string } {_user:id}
+GET /user/get { _user:id } all details
+POST /user/edit { _user:id, password:string, mobile:string, age:number }
+POST /user/delete  { _user:id }
+GET /user/IdFromUserId { userId:string } {_id:id}
+GET /user/checkUnique { userId:string } {canUse:boolean}
+
+POST /locations/update { _user:id, longitude:string, latitude:string } {location updated, location added}
+GET /locations/getNearbyUsers {_user:id}
+
+POST /places/add { _user:id, longitude:string, latitude:string, date:date } {place added}
+GET /places/upcoming {_user:id}
+GET /places/previous {_user:id}
+GET /places/usersbyTripId {_trip:id}
+
+POST /chats/add { _user:id, targetUser:id, body:string } {chat added,chat not added}
+GET /chats/get { _user:id, targetUser:id }
