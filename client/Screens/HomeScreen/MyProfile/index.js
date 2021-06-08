@@ -13,14 +13,15 @@ const MyProfile = () => {
         <Stack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#fff', //Set Header color
-
+                    backgroundColor: '#02a3bb', //Set Header color
+                    
                 },
                 headerLeft: () => <BackArrow />,
-                headerTintColor: '#000', //Set Header text color
+                headerTintColor: '#f7f4e5', //Set Header text color
                 headerTitleStyle: {
                     fontWeight: 'bold', //Set Header text style
-                    marginLeft: 80
+                    marginLeft: 80,
+                    textAlign: 'center'
                 },
             }}
         >
