@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { api } from "../../api/index";
 import {
   View,
   Text,
@@ -141,18 +142,19 @@ export default function SignUp({ navigation }) {
       password: p,
       terms: t,
     };
-    let result = await fetch(
-      "https://enigmatic-temple-22499.herokuapp.com/api/users/signUp",
-      {
-        method: "POST",
-        body: JSON.stringify(item),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-    result = await result.json();
+    // let result = await fetch(
+    //   "https://enigmatic-temple-22499.herokuapp.com/api/users/signUp",
+    //   {
+    //     method: "POST",
+    //     body: JSON.stringify(item),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //     },
+    //   }
+    // );
+    // result = await result.json();
+    result = api.signUp(item);
     alert("User created");
     navigation.goBack();
   }
