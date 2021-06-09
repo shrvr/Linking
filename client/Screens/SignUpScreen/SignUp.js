@@ -124,7 +124,38 @@ export default function SignUp({ navigation }) {
     }
   };
   // for entering data in backend
-  const handleSignUpValidation = () => {};
+  async function handleSignUpValidation() {
+    let f = formData.FirstName;
+    let l = formData.LastName;
+    let a = formData.Age;
+    let m = formData.Phone;
+    let e = formData.Email;
+    let p = formData.Password;
+    let t = isEnabled;
+    let item = {
+      firstname: f,
+      lastname: l,
+      age: a,
+      mobile: m,
+      userId: e,
+      password: p,
+      terms: t,
+    };
+    let result = await fetch(
+      "https://enigmatic-temple-22499.herokuapp.com/api/users/signUp",
+      {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    result = await result.json();
+    alert("User created");
+    navigation.goBack();
+  }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
@@ -227,12 +258,16 @@ export default function SignUp({ navigation }) {
             <View style={style.terms}>
               <Switch onValueChange={toggleSwitch} value={isEnabled}></Switch>
               <Text style={style.terms_text}>Agree to </Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push("TermsAndConditions");
+                }}
+              >
                 <Text style={style.terms_link}>terms and conditions</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
-              onClick={handleSignUpValidation}
+              onPress={handleSignUpValidation}
               disabled={
                 !(
                   isEnabled &&
