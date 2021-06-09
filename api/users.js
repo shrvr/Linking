@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const auth = require('../middleware/auth');
 module.exports = router;
 
 const mongoose = require('mongoose');
@@ -17,8 +18,9 @@ router.get('/signIn', async (req, res) => {
         if (!isMatch) {
             throw new Error();
         }
+        const token = await user.generateAuthToken();
 
-        res.send({ _user: user._id });
+        res.send({ _user: token });
     } catch (err) {
         res.status(422).send('User not Found');
     }
@@ -38,47 +40,40 @@ router.post('/signUp', async (req, res) => {
     });
 
     try {
-        await user.save().then((response) => {
-            res.send({ _user: response._id });
-        });
+        await user.save();
+        const token = await user.generateAuthToken();
+        res.send({ _user: token });
     } catch (err) {
         res.status(422).send(err);
     }
 });
 
-router.get('/get', async (req, res) => {
-    const { _user } = req.query;
+router.get('/get', auth, async (req, res) => {
+    res.send(req.user);
+});
+
+router.post('/edit', auth, async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['password', 'mobile', 'age'];
+    const isValidOperation = updates.every((update) =>
+        allowedUpdates.includes(update)
+    );
 
     try {
-        await User.findById(_user).then((response) => {
-            res.send(response);
-        });
-    } catch (err) {
-        res.status(422).send(err);
+        if (!isValidOperation) {
+            throw new Error('Invalid Updates');
+        }
+        updates.forEach((update) => (req.user[update] = req.body[update]));
+        await req.user.save();
+        res.send({ _user: req.token });
+    } catch (error) {
+        res.status(400).send(error.message);
     }
 });
 
-router.post('/edit', async (req, res) => {
-    const { _user, password, mobile, age } = req.body;
-
+router.post('/delete', auth, async (req, res) => {
     try {
-        await User.findByIdAndUpdate(_user, {
-            password: await bcrypt.hash(password, 8),
-            mobile,
-            age,
-        }).then((response) => {
-            res.send({ _user: response._id });
-        });
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
-router.post('/delete', async (req, res) => {
-    const { _user } = req.body;
-
-    try {
-        await User.findByIdAndRemove(_user).then((response) => {
+        await req.user.remove().then((response) => {
             res.json('User removed');
         });
     } catch (err) {
