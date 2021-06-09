@@ -14,22 +14,29 @@ const UpcomingTrips = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Upcoming Trips</Text>
-            <View style={styles.list}>
-                <FlatList
-                    data={tripList}
-                    keyExtractor={(item, index) => `${index}`}
-                    renderItem={({ item }) => (
-                    
-                        <View style={styles.item}>
+            { tripList && tripList.length ?
+                <View style={styles.list}>
+                    <FlatList
 
-                            <Text style={{ marginRight: 20, marginLeft: 10 }}>{item.date}</Text>
-                            <Text style={{ flexShrink: 1, marginLeft: 10, marginRight: 10 }}>{item.place}</Text>
-                            <Button title="View Match" />
+                        data={tripList}
+                        keyExtractor={(item, index) => `${index}`}
+                        renderItem={({ item }) => (
 
-                        </View>
-                    )}
-                />
-            </View>
+                            <View style={styles.item}>
+
+                                <Text style={{ marginRight: 20, marginLeft: 10 }}>{item.date}</Text>
+                                <Text style={{ flexShrink: 1, marginLeft: 10, marginRight: 10 }}>{item.place}</Text>
+                                <Button title="View Match" />
+
+                            </View>
+                        )}
+                    />
+                </View>
+                :
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.text2}>No Upcoming Trips</Text>
+                </View>
+            }
         </View>
     )
 }

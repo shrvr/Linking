@@ -44,8 +44,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlignVertical: 'center',
         color: '#02a3bb',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 10
+    },
+    Button2: {
+        padding: 10,
     }
+
 });
 
 export default styles;

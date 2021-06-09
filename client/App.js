@@ -19,11 +19,11 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
 
-  const [userToken, setUserToken] = useState("");
+  const [userToken, setUserToken] = useState("abc");
 
   return (
-      <NavigationContainer>
-          {userToken == null | userToken == "" ?
+    <NavigationContainer>
+      {userToken == null | userToken == "" ?
         <Stack.Navigator headerMode="float">
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
