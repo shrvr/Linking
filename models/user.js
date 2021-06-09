@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -48,6 +49,12 @@ const userSchema = new Schema({
     },
 });
 
+userSchema.methods.generateAuthToken = async function () {
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, 'linking');
+    return token;
+};
+
 userSchema.pre('save', async function (next) {
     const user = this;
     if (user.isModified('password')) {
@@ -56,4 +63,6 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-mongoose.model('users', userSchema);
+const User = mongoose.model('users', userSchema);
+
+module.exports = User;
