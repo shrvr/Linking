@@ -91,14 +91,3 @@ router.get('/IdFromUserId', async (req, res) => {
         res.status(422).send(err);
     }
 });
-
-router.get('/checkUnique', async (req, res) => {
-    const { userId } = req.query;
-    try {
-        await User.find({ userId }).then((response) => {
-            res.json({ canUse: false });
-        });
-    } catch (err) {
-        res.status(200).json({ canUse: true });
-    }
-});

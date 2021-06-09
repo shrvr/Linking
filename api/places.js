@@ -2,12 +2,13 @@ const router = require('express').Router();
 module.exports = router;
 
 const mongoose = require('mongoose');
-
+const auth = require('../middleware/auth');
 const Place = mongoose.model('places');
 const User = mongoose.model('users');
 
-router.post('/add', async (req, res) => {
-    const { _user, longitude, latitude, date } = req.body;
+router.post('/add', auth, async (req, res) => {
+    const { longitude, latitude, date } = req.body;
+    const _user = req.body._id
     const place = new Place({
         _user,
         longitude,
@@ -22,11 +23,10 @@ router.post('/add', async (req, res) => {
     }
 });
 
-router.get('/upcoming', async (req, res) => {
-    const { _user } = req.query;
+router.get('/upcoming', auth, async (req, res) => {
     const currentDate = new Date();
     try {
-        await Place.find({ _user }, { date: { $gte: currentDate } })
+        await Place.find({ _user: req.user._id }, { date: { $gte: currentDate } })
             .then(response => {
                 res.send(response)
             })
@@ -35,11 +35,10 @@ router.get('/upcoming', async (req, res) => {
     }
 });
 
-router.get('/previous', async (req, res) => {
-    const { _user } = req.query;
+router.get('/previous', auth, async (req, res) => {
     const currentDate = new Date();
     try {
-        await Place.find({ _user }, { date: { $lt: currentDate } })
+        await Place.find({ _user: req.user._id }, { date: { $lt: currentDate } })
             .then(response => {
                 res.send(response)
             })
@@ -48,7 +47,7 @@ router.get('/previous', async (req, res) => {
     }
 });
 
-router.get('/usersbyTripId', async (req, res) => {
+router.get('/usersbyTripId', auth, async (req, res) => {
     const { _trip } = req.query;
     try {
         await Place.findById(_trip)

@@ -2,13 +2,13 @@ const router = require('express').Router();
 module.exports = router;
 
 const mongoose = require('mongoose');
-
+const auth = require('../middleware/auth');
 const Location = mongoose.model('locations');
 
-router.post('/update', async (req, res) => {
-    const { _user, longitude, latitude } = req.body;
+router.post('/update', auth, async (req, res) => {
+    const { longitude, latitude } = req.body;
     try {
-        await Location.findOne({ _user })
+        await Location.findOne({ _user: req.user._id })
             .then(async response => {
                 await Location.findByIdAndUpdate(response._id, { longitude, latitude })
                     .then(response => {
@@ -31,6 +31,6 @@ router.post('/update', async (req, res) => {
     }
 });
 
-router.get('/getNearbyUsers', async (req, res) => {
-    const { _user } = req.query;
+router.get('/getNearbyUsers', auth, async (req, res) => {
+    res.send(req.user);
 });
