@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { api } from "../../api/index";
+import { signUp, setStorage, getStorage } from "../../api/index";
 import {
   View,
   Text,
@@ -134,8 +134,8 @@ export default function SignUp({ navigation }) {
     let p = formData.Password;
     let t = isEnabled;
     let item = {
-      firstname: f,
-      lastname: l,
+      firstName: f,
+      lastName: l,
       age: a,
       mobile: m,
       userId: e,
@@ -154,7 +154,9 @@ export default function SignUp({ navigation }) {
     //   }
     // );
     // result = await result.json();
-    result = api.signUp(item);
+    let result = await signUp(item);
+    await setStorage(result._user);
+    console.log(await getStorage());
     alert("User created");
     navigation.goBack();
   }
