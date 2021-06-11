@@ -15,7 +15,7 @@ const style = StyleSheet.create({
     backgroundColor: "#02a3bb",
   },
   footer: {
-    flex: 4,
+    flex: 7,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -76,6 +76,12 @@ const style = StyleSheet.create({
   terms_link: {
     color: "#02495d",
     textDecorationLine: "underline",
+  },
+  errMsg: {
+    color: "red",
+    letterSpacing: 0.4,
+    fontSize: 16,
+    marginHorizontal: 16,
   },
 });
 
