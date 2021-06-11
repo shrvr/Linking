@@ -195,6 +195,7 @@ export default function ProfilePage() {
               <TextInput
                 autoCapitalize="none"
                 placeholder="Age"
+                keyboardType='numeric'
                 style={style.block_text}
                 value = {val.Age}
                 onChangeText={(value) => setAge(value)} 
@@ -212,6 +213,7 @@ export default function ProfilePage() {
               <TextInput
                 autoCapitalize="none"
                 placeholder="phone number"
+                keyboardType='numeric'
                 style={style.block_text}
                 value = {val.Phone}
                 onChangeText={(value) => setPhone(value)}
