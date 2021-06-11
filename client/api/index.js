@@ -7,6 +7,41 @@ const headers = {
 };
 const storageKey = '_user';
 
+export async function GetUser() {
+    try {
+
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/users/get`, {
+            method: 'GET',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function EditUser(item) {
+    try {
+
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/users/edit`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export async function signUp(item) {
     try {
         const res = await fetch(`${baseUrl}/users/signUp`, {

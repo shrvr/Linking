@@ -15,11 +15,13 @@ import { Fontisto } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import style from "./style";
 import EditIcon from '@material-ui/icons/Edit';
+import  * as UsersApi from "../../../api/index";
+import { useScrollToTop } from "@react-navigation/native";
 
 
 // fetching user data from local json file
 // Once backend code will be integrated, this below code will be commented.
-const customData = require('./UserDetails.json');
+//const customData = require('./UserDetails.json');
 
 
 
@@ -34,18 +36,41 @@ export default function ProfilePage() {
     // }, [])
 
     const [val, setVal] = useState( {
-        FirstName: customData["First Name"],
-        LastName: customData["Last Name"],
-        Age: customData["Age"],
-        Phone: customData["Contact Number"],
-        Email: customData["Email Id"],
-        Password: customData["Password"],
-        conPass: "",
+        // FirstName: customData["First Name"],
+        // LastName: customData["Last Name"],
+        // Age: customData["Age"],
+        // Phone: customData["Contact Number"],
+        // Email: customData["Email Id"],
+        // Password: customData["Password"],
+        // isValidAge: true,
+        // isValidPhone: true
+
+
+        FirstName: "",
+        LastName: "",
+        Age: "",
+        Phone: "",
+        Email: "",
+        Password: "",
         isValidAge: true,
         isValidPhone: true
     })
     
-    
+    useEffect(async() => {
+      const users = await UsersApi.GetUser()
+      setVal(currentState => ({
+        ...currentState,
+        FirstName: users.firstName,
+        LastName: users.lastName,
+        Age: users.age,
+        Phone: users.mobile,
+        Email: users.userId,
+        Password: users.password,
+
+      }))
+    }, [])
+
+
 
     const setAge = (value) => {
         setVal((currentState) => ({
@@ -93,6 +118,14 @@ export default function ProfilePage() {
             if(val.isValidAge&&val.isValidPhone){
 
                 // backend code here
+
+               UsersApi.EditUser({
+                 age: val.Age,
+                mobile: val.Phone
+              
+               })
+
+
                 alert("changed successfully");
             }
             else{
@@ -167,7 +200,7 @@ export default function ProfilePage() {
                 onChangeText={(value) => setAge(value)} 
               >
               </TextInput>
-             
+
             </View>
             <View style={style.block}>
               <Feather
