@@ -10,7 +10,6 @@ const Card = (props) => {
           style={CardStyle.image}
           imageStyle={{
             borderRadius: 30,
-            opacity: 1,
           }}
           source={props.image}
         >
