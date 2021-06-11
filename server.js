@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const compression = require('compression');
 const keys = require('./config/keys');
+const errorHandler = require('./middleware/errorHandler');
 
 require('./models/user');
 require('./models/place');
@@ -23,11 +24,14 @@ app.use(compression());
 app.use(express.json());
 
 app.use(express.json());
-app.use(express.urlencoded({
-    extended: false
-}));
+app.use(
+    express.urlencoded({
+        extended: false,
+    })
+);
 
 app.use('/api', api);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server running on at http://localhost:${PORT}`);
