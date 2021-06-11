@@ -29,18 +29,20 @@ export default function SignUp({ navigation }) {
         Phone: '',
         Email: '',
         Password: '',
-        isValidFirst: false,
-        isValidLast: false,
-        isValidAge: false,
-        isValidEmail: false,
-        isValidPassword: false,
+        isValidFirst: true,
+        isValidLast: true,
+        isValidAge: true,
+        isValidEmail: true,
+        isValidPassword: true,
     });
+    const [PassErrMsg, setPassErrMsg] = useState({
+        shortLen: false,
+        noNum: false,
+    })
 
-    const handle_firstname = (value) => {
-        setformData((currentState) => ({
-            ...currentState,
-            FirstName: value,
-        }));
+
+    {/**firstName field handle functions */}
+    const handleValidFirstName = (value) =>{
         let regexFirst = /^[a-zA-Z\s]+$/;
         if (regexFirst.test(value) && value.length > 0) {
             setformData((currentState) => ({
@@ -53,12 +55,18 @@ export default function SignUp({ navigation }) {
                 isValidFirst: false,
             }));
         }
-    };
-    const handle_lastname = (value) => {
+    }
+
+    const handle_firstname = (value) => {
         setformData((currentState) => ({
             ...currentState,
-            LastName: value,
+            FirstName: value,
         }));
+    };
+
+    
+    {/**lastName field handle functions*/}
+    const handleValidLastName = (value) =>{
         let regexLast = /^[a-zA-Z\s]+$/;
         if (regexLast.test(value) && value.length > 0) {
             setformData((currentState) => ({
@@ -71,12 +79,18 @@ export default function SignUp({ navigation }) {
                 isValidLast: false,
             }));
         }
-    };
-    const handle_age = (value) => {
+    }
+
+    const handle_lastname = (value) => {
         setformData((currentState) => ({
             ...currentState,
-            Age: value,
+            LastName: value,
         }));
+    };
+
+
+    {/**Age field handle functions*/}
+    const handleValidAge = (value) =>{
         let regexAge = /^\d+$/;
         if (regexAge.test(value) && Number(value) > 17) {
             setformData((currentState) => ({
@@ -89,32 +103,49 @@ export default function SignUp({ navigation }) {
                 isValidAge: false,
             }));
         }
+    } 
+
+    const handle_age = (value) => {
+        setformData((currentState) => ({
+            ...currentState,
+            Age: value,
+        }));
     };
+
+
+    {/**Email field handle functions*/}
+    const handleValidEmail = (value) =>{
+        let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+        if (regexEmail.test(value)) {
+            setformData({
+                ...formData,
+                isValidEmail: true,
+            });
+        } else {
+            setformData({
+                ...formData,
+                isValidEmail: false,
+            });
+        }
+    }
+
     const handle_email = (value) => {
         setformData((currentState) => ({
             ...currentState,
             Email: value,
         }));
-        let regexAge =
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (regexAge.test(String(value).toLowerCase())) {
-            setformData((currentState) => ({
-                ...currentState,
-                isValidEmail: true,
-            }));
-        } else {
-            setformData((currentState) => ({
-                ...currentState,
-                isValidEmail: false,
-            }));
-        }
     };
-    const handle_password = (value) => {
-        setformData((currentState) => ({
-            ...currentState,
-            Password: value,
-        }));
-        if (value.length > 7) {
+
+
+    {/**Password field handle functions */}
+    const handleValidPassword = (value) =>{
+
+        //Check a password between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit,
+        // and one special character
+        let regex_pass = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/
+         
+        if(regex_pass.test(value)){
             setformData((currentState) => ({
                 ...currentState,
                 isValidPassword: true,
@@ -125,24 +156,34 @@ export default function SignUp({ navigation }) {
                 isValidPassword: false,
             }));
         }
+        
+    }
+
+    const handle_password = (value) => {
+        setformData((currentState) => ({
+            ...currentState,
+            Password: value,
+        }));
     };
+
+    const handlePhone = (value) => {
+        setformData( (currentState) => ({
+            ...currentState,
+            Phone: value,
+        }));
+    }
+
+
     // for entering data in backend
     async function handleSignUpValidation() {
-        let f = formData.FirstName;
-        let l = formData.LastName;
-        let a = formData.Age;
-        let m = formData.Phone;
-        let e = formData.Email;
-        let p = formData.Password;
-        let t = isEnabled;
         let item = {
-            firstName: f,
-            lastName: l,
-            age: a,
-            mobile: m,
-            userId: e,
-            password: p,
-            terms: t,
+            firstName: formData.FirstName,
+            lastName: formData.LastName,
+            age: formData.Age,
+            mobile: formData.Phone,
+            userId: formData.Email,
+            password: formData.Password,
+            terms: isEnabled,
         };
 
         await signUp(item);
@@ -150,13 +191,16 @@ export default function SignUp({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={{ flex: 1 }}> 
                 <SafeAreaView style={style.container}>
                     <View style={style.header}>
                         <Text style={style.title}>Welcome!</Text>
                         <Text style={style.sub_title}>Create new account</Text>
                     </View>
+
                     <View style={style.footer}>
+
+                        {/** FirstName Field*/}
                         <View style={style.block}>
                             <AntDesign
                                 name="user"
@@ -172,8 +216,16 @@ export default function SignUp({ navigation }) {
                                 onChangeText={(value) =>
                                     handle_firstname(value)
                                 }
+                                onEndEditing={(ele) => {
+                                    handleValidFirstName(ele.nativeEvent.text);
+                                }}
                             ></TextInput>
                         </View>
+                        {formData.isValidFirst ? null : (
+                            <Text style={style.errMsg}>Invalid Firstname !</Text>
+                        )}
+
+                        {/** LastName Field*/}
                         <View style={style.block}>
                             <AntDesign
                                 name="user"
@@ -187,8 +239,17 @@ export default function SignUp({ navigation }) {
                                 style={style.block_text}
                                 value={formData.LastName}
                                 onChangeText={(value) => handle_lastname(value)}
+                                onEndEditing={(ele) => {
+                                    handleValidLastName(ele.nativeEvent.text)
+                                }}
                             ></TextInput>
                         </View>
+                        {formData.isValidLast ? null : (
+                            <Text style={style.errMsg}>Invalid Lastname !</Text>
+                        )}
+
+
+                        {/** Age Field */}
                         <View style={style.block}>
                             <Feather
                                 style={style.block_icon}
@@ -202,8 +263,16 @@ export default function SignUp({ navigation }) {
                                 style={style.block_text}
                                 value={formData.Age}
                                 onChangeText={(value) => handle_age(value)}
+                                onEndEditing={(ele) => {
+                                    handleValidAge(ele.nativeEvent.text);
+                                }}
                             ></TextInput>
                         </View>
+                        {formData.isValidAge ? null : (
+                            <Text style={style.errMsg}>Invalid Age !</Text>
+                        )}
+
+                        {/** Phone Field */}
                         <View style={style.block}>
                             <Feather
                                 style={style.block_icon}
@@ -215,8 +284,11 @@ export default function SignUp({ navigation }) {
                                 autoCapitalize="none"
                                 placeholder="Phone No. (optional)"
                                 style={style.block_text}
+                                onChangeText={(value) => handlePhone(value)}
                             ></TextInput>
                         </View>
+                        
+                        {/** Email Field*/}
                         <View style={style.block}>
                             <Fontisto
                                 style={style.block_icon}
@@ -230,8 +302,16 @@ export default function SignUp({ navigation }) {
                                 style={style.block_text}
                                 value={formData.Email}
                                 onChangeText={(value) => handle_email(value)}
+                                onEndEditing={ (ele) => {
+                                    handleValidEmail(ele.nativeEvent.text)
+                                }}
                             ></TextInput>
                         </View>
+                        {formData.isValidEmail ? null : (
+                            <Text style={style.errMsg}>Invalid Email !</Text>
+                        )}
+
+                        {/** Password Field */}
                         <View style={style.block}>
                             <MaterialIcons
                                 style={style.block_icon}
@@ -246,8 +326,17 @@ export default function SignUp({ navigation }) {
                                 autoCapitalize="none"
                                 value={formData.Password}
                                 onChangeText={(value) => handle_password(value)}
+                                onEndEditing={ (ele) => {
+                                    handleValidPassword(ele.nativeEvent.text)
+                                }}
                             ></TextInput>
                         </View>
+                        {formData.isValidPassword ? null : (
+                            <Text style={style.errMsg}>Minimum password length:8 !</Text>
+                        )}
+                        
+                    
+                        {/** Terms and Conditions Element */}
                         <View style={style.terms}>
                             <Switch
                                 onValueChange={toggleSwitch}
@@ -264,6 +353,8 @@ export default function SignUp({ navigation }) {
                                 </Text>
                             </TouchableOpacity>
                         </View>
+
+                        {/** Sign Up Button */}
                         <TouchableOpacity
                             onPress={handleSignUpValidation}
                             disabled={
@@ -281,6 +372,7 @@ export default function SignUp({ navigation }) {
                             <Text style={style.btn_text}>Sign Up</Text>
                         </TouchableOpacity>
                     </View>
+                    {/** */}
                 </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
