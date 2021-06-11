@@ -7,33 +7,31 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     firstName: {
         type: String,
-        required: [true, 'Enter firstname'],
+        required: true,
         trim: true,
     },
     lastName: {
         type: String,
-        required: [true, 'Enter lastname'],
+        required: true,
         trim: true,
     },
     userId: {
         type: String,
-        required: [true, 'Enter email address'],
+        required: true,
         trim: true,
-        unique: [true, 'The email address is already taken'],
+        unique: true,
         lowercase: true,
         validate(val) {
-            if (!validator.isEmail(val))
-                throw new Error('Enter valid email address');
+            if (!validator.isEmail(val)) throw new Error('UserID invalid.');
         },
     },
     password: {
         type: String,
         trim: true,
-        required: [true, 'Enter a password'],
+        required: true,
     },
     age: {
         type: Number,
-        required: [true, 'Enter age'],
         validate(val) {
             if (val < 18)
                 throw new Error('Age must be greater than or equal to 18.');

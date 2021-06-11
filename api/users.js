@@ -7,27 +7,26 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('users');
 
-router.get('/signIn', async (req, res, next) => {
+router.get('/signIn', async (req, res) => {
     const { userId, password } = req.query;
     try {
         const user = await User.findOne({ userId });
         if (!user) {
-            throw new Error('Enter correct email address or password');
+            throw new Error();
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new Error('Enter correct email address or password');
+            throw new Error();
         }
         const token = await user.generateAuthToken();
 
         res.send({ _user: token });
     } catch (err) {
-        console.log(err);
-        res.status(401).send({ messages: err.message });
+        res.status(422).send('User not Found');
     }
 });
 
-router.post('/signUp', async (req, res, next) => {
+router.post('/signUp', async (req, res) => {
     const { firstName, lastName, userId, password, age, terms, mobile } =
         req.body;
     const user = new User({
@@ -45,19 +44,15 @@ router.post('/signUp', async (req, res, next) => {
         const token = await user.generateAuthToken();
         res.send({ _user: token });
     } catch (err) {
-        next(err);
+        res.status(422).send(err);
     }
 });
 
 router.get('/get', auth, async (req, res) => {
-    try {
-        res.send(req.user);
-    } catch (err) {
-        next(err);
-    }
+    res.send(req.user);
 });
 
-router.post('/edit', auth, async (req, res, next) => {
+router.post('/edit', auth, async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['password', 'mobile', 'age'];
     const isValidOperation = updates.every((update) =>
@@ -66,23 +61,23 @@ router.post('/edit', auth, async (req, res, next) => {
 
     try {
         if (!isValidOperation) {
-            res.status(400).send({ messages: 'Invalid updates' });
+            throw new Error('Invalid Updates');
         }
         updates.forEach((update) => (req.user[update] = req.body[update]));
         await req.user.save();
         res.send({ _user: req.token });
     } catch (error) {
-        next(error);
+        res.status(400).send(error.message);
     }
 });
 
-router.post('/delete', auth, async (req, res, next) => {
+router.post('/delete', auth, async (req, res) => {
     try {
         await req.user.remove().then((response) => {
             res.json('User removed');
         });
     } catch (err) {
-        next(err);
+        res.status(422).send(err);
     }
 });
 
