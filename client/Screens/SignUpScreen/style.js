@@ -13,10 +13,10 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#02a3bb",
+    marginBottom: 50,
   },
   footer: {
-    flex: 7,
-    justifyContent: "center",
+    flex: 4,
     alignItems: "center",
   },
   title: {
@@ -26,7 +26,6 @@ const style = StyleSheet.create({
   },
   sub_title: {
     color: "white",
-    marginTop: 5,
     fontSize: 20,
   },
   text: {
@@ -37,7 +36,6 @@ const style = StyleSheet.create({
   },
   block: {
     padding: 15,
-    // margin: 2,
     borderRadius: 8,
     borderBottomWidth: 0.8,
     borderBottomColor: "#02a3bb",
