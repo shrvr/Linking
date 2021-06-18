@@ -12,6 +12,7 @@ import HomePage from './Screens/HomeScreen/HomePage';
 import MyProfile from './Screens/HomeScreen/MyProfile';
 import MyTrips from './Screens/HomeScreen/MyTrips';
 import SignOut from './Screens/HomeScreen/SignOut';
+import MapView from "./Screens/MapViewScreen";
 
 import * as UsersAPI from './api/index';
 
@@ -26,6 +27,8 @@ function DrawerRoutes() {
             <Drawer.Screen name="Profile" component={MyProfile} />
             <Drawer.Screen name="My Trips" component={MyTrips} />
             <Drawer.Screen name="SignOut" component={SignOut} />
+            <Drawer.Screen name="Map" component={MapView} />
+
         </Drawer.Navigator>
     );
 }
@@ -110,9 +113,10 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator headerMode="float">
                     {state.userToken == '' ||
-                    state.userToken == null ||
-                    state.userToken == undefined ? (
+                        state.userToken == null ||
+                        state.userToken == undefined ? (
                         <React.Fragment>
+
                             <Stack.Screen
                                 options={{ headerShown: false }}
                                 name="SignIn"
