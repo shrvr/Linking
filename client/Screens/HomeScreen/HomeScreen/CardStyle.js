@@ -2,16 +2,15 @@ import { StyleSheet } from "react-native";
 
 const CardStyle = StyleSheet.create({
   container: {
-    // marginTop: 100,
-    padding: 10,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    // borderRadius: 30,
   },
   image: {
     height: 200,
     width: 300,
+    margin: 10,
     opacity: 0.9,
     textAlign: "center",
     justifyContent: "center",
