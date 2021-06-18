@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HeaderLeft from "../HeaderLeft";
 import HomeScreen from "../HomeScreen";
 import Places from "../Places_Category/Places";
+import MapViewScreen from "../../MapViewScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const HomePage = () => {
     >
       <Stack.Screen name="Main Page" component={HomeScreen} />
       <Stack.Screen name="Places" component={Places} />
+      <Stack.Screen name="MapViewScreen" component={MapViewScreen} />
     </Stack.Navigator>
   );
 };

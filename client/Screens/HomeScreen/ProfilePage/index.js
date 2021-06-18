@@ -14,51 +14,46 @@ import { AntDesign } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import style from "./style";
-import EditIcon from '@material-ui/icons/Edit';
-import  * as UsersApi from "../../../api/index";
+import EditIcon from "@material-ui/icons/Edit";
+import * as UsersApi from "../../../api/index";
 import { useScrollToTop } from "@react-navigation/native";
-
 
 // fetching user data from local json file
 // Once backend code will be integrated, this below code will be commented.
 //const customData = require('./UserDetails.json');
 
-
-
-
 export default function ProfilePage() {
+  // useEffect(() => {
 
-    // useEffect(() => {
-       
-    //     const url = ""
-    //     fetch(url).then(resp => resp.json()).then(resp => console.log(resp))
+  //     const url = ""
+  //     fetch(url).then(resp => resp.json()).then(resp => console.log(resp))
 
-    // }, [])
+  // }, [])
 
-    const [val, setVal] = useState( {
-        // FirstName: customData["First Name"],
-        // LastName: customData["Last Name"],
-        // Age: customData["Age"],
-        // Phone: customData["Contact Number"],
-        // Email: customData["Email Id"],
-        // Password: customData["Password"],
-        // isValidAge: true,
-        // isValidPhone: true
+  const [val, setVal] = useState({
+    // FirstName: customData["First Name"],
+    // LastName: customData["Last Name"],
+    // Age: customData["Age"],
+    // Phone: customData["Contact Number"],
+    // Email: customData["Email Id"],
+    // Password: customData["Password"],
+    // isValidAge: true,
+    // isValidPhone: true
 
+    FirstName: "",
+    LastName: "",
+    Age: "",
+    Phone: "",
+    Email: "",
+    Password: "",
+    isValidAge: true,
+    isValidPhone: true,
+  });
 
-        FirstName: "",
-        LastName: "",
-        Age: "",
-        Phone: "",
-        Email: "",
-        Password: "",
-        isValidAge: true,
-        isValidPhone: true
-    })
-    
-    useEffect(async() => {
-      const users = await UsersApi.GetUser()
-      setVal(currentState => ({
+  useEffect(() => {
+    async function fetchData() {
+      const users = await UsersApi.GetUser();
+      setVal((currentState) => ({
         ...currentState,
         FirstName: users.firstName,
         LastName: users.lastName,
@@ -66,89 +61,80 @@ export default function ProfilePage() {
         Phone: users.mobile,
         Email: users.userId,
         Password: users.password,
-
-      }))
-    }, [])
-
-
-
-    const setAge = (value) => {
-        setVal((currentState) => ({
-            ...currentState,
-            Age: value,
-          }))
-          let regexAge = /^\d+$/;
-        if (regexAge.test(value) && Number(value) > 17) {
-        setVal((currentState) => ({
-            ...currentState,
-            isValidAge: true,
-        }))
-        } else {
-        setVal((currentState) => ({
-            ...currentState,
-            isValidAge: false,
-            }))
-        }
+      }));
     }
- 
-    const setPhone = (value) => {
-        setVal((currentState) => ({
-            ...currentState,
-            Phone: value,
-          }))
-          let regexNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-          let regexNum1 = /^(\+?\d{1,3}|\d{1,4})\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-        if (regexNum.test(value) || regexNum1.test(value)) {
-        setVal((currentState) => ({
-            ...currentState,
-            isValidPhone: true,
-        }))
-        } else {
-        setVal((currentState) => ({
-            ...currentState,
-            isValidPhone: false,
-            }))
-        }
+    fetchData();
+  }, []);
+
+  const setAge = (value) => {
+    setVal((currentState) => ({
+      ...currentState,
+      Age: value,
+    }));
+    let regexAge = /^\d+$/;
+    if (regexAge.test(value) && Number(value) > 17) {
+      setVal((currentState) => ({
+        ...currentState,
+        isValidAge: true,
+      }));
+    } else {
+      setVal((currentState) => ({
+        ...currentState,
+        isValidAge: false,
+      }));
     }
+  };
 
-// handling changes of the fields
-    const clickHandler = () => {
+  const setPhone = (value) => {
+    setVal((currentState) => ({
+      ...currentState,
+      Phone: value,
+    }));
+    let regexNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    let regexNum1 =
+      /^(\+?\d{1,3}|\d{1,4})\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (regexNum.test(value) || regexNum1.test(value)) {
+      setVal((currentState) => ({
+        ...currentState,
+        isValidPhone: true,
+      }));
+    } else {
+      setVal((currentState) => ({
+        ...currentState,
+        isValidPhone: false,
+      }));
+    }
+  };
 
-   
-            if(val.isValidAge&&val.isValidPhone){
+  // handling changes of the fields
+  const clickHandler = () => {
+    if (val.isValidAge && val.isValidPhone) {
+      // backend code here
 
-                // backend code here
+      UsersApi.EditUser({
+        age: val.Age,
+        mobile: val.Phone,
+      });
 
-               UsersApi.EditUser({
-                 age: val.Age,
-                mobile: val.Phone
-              
-               })
-
-
-                alert("changed successfully");
-            }
-            else{
-                
-                if(!val.isValidAge){
-                    if(!val.isValidPhone){
-                        alert(`
+      alert("changed successfully");
+    } else {
+      if (!val.isValidAge) {
+        if (!val.isValidPhone) {
+          alert(`
                             * Age must be over 18
                             * Invalid number
                             * number format "+91XXX XXX XXXX" or "XXXXXXXXXX" 
-                        `)
-                    }
-                    else{
-                        alert("age must be over 18")
-                    }
-                }
-                else{
-                    alert(`
+                        `);
+        } else {
+          alert("age must be over 18");
+        }
+      } else {
+        alert(`
                     * Invalid Number
-                    * number format e.g: "+91XXX XXX XXXX" or "XXXXXXXXXX"`)
-                }
-            }
+                    * number format e.g: "+91XXX XXX XXXX" or "XXXXXXXXXX"`);
+      }
     }
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
@@ -167,7 +153,7 @@ export default function ProfilePage() {
                 placeholder="First Name"
                 style={style.block_text}
                 value={val.FirstName}
-                editable = {false}
+                editable={false}
               ></TextInput>
             </View>
             <View style={style.block}>
@@ -182,7 +168,7 @@ export default function ProfilePage() {
                 placeholder="Last Name"
                 style={style.block_text}
                 value={val.LastName}
-                editable = {false}
+                editable={false}
               ></TextInput>
             </View>
             <View style={style.block}>
@@ -195,13 +181,11 @@ export default function ProfilePage() {
               <TextInput
                 autoCapitalize="none"
                 placeholder="Age"
-                keyboardType='numeric'
+                keyboardType="numeric"
                 style={style.block_text}
-                value = {val.Age}
-                onChangeText={(value) => setAge(value)} 
-              >
-              </TextInput>
-
+                value={val.Age}
+                onChangeText={(value) => setAge(value)}
+              ></TextInput>
             </View>
             <View style={style.block}>
               <Feather
@@ -213,12 +197,11 @@ export default function ProfilePage() {
               <TextInput
                 autoCapitalize="none"
                 placeholder="phone number"
-                keyboardType='numeric'
+                keyboardType="numeric"
                 style={style.block_text}
-                value = {val.Phone}
+                value={val.Phone}
                 onChangeText={(value) => setPhone(value)}
               ></TextInput>
-
             </View>
             <View style={style.block}>
               <Fontisto
@@ -231,8 +214,8 @@ export default function ProfilePage() {
                 autoCapitalize="none"
                 placeholder="Email"
                 style={style.block_text}
-                value = {val.Email}
-                editable = {false}
+                value={val.Email}
+                editable={false}
               ></TextInput>
             </View>
             {/* <View style={style.block}>
@@ -268,10 +251,8 @@ export default function ProfilePage() {
                 onChangeText={(value) => setConPass(value)} 
                 ></TextInput>
              </View>  */}
-            <TouchableOpacity onPress = {clickHandler} style={style.sign_up}> 
-                
-                    <Text style={style.btn_text} >Submit</Text>
-            
+            <TouchableOpacity onPress={clickHandler} style={style.sign_up}>
+              <Text style={style.btn_text}>Submit</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -279,5 +260,3 @@ export default function ProfilePage() {
     </KeyboardAvoidingView>
   );
 }
-
-
