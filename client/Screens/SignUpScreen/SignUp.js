@@ -197,178 +197,178 @@ export default function SignUp({ navigation }) {
       style={{ flex: 1 }}
       behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
-      {/* <View style={style.container}> */}
-      <View style={style.header}>
-        <Text style={style.title}>Welcome!</Text>
-        <Text style={style.sub_title}>Create new account</Text>
-      </View>
-      {/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
-      <View style={style.footer}>
-        {/** FirstName Field*/}
-        <View style={style.block}>
-          <AntDesign
-            name="user"
-            size={24}
-            color="black"
-            style={style.block_icon}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="First Name"
-            style={style.block_text}
-            value={formData.FirstName}
-            onChangeText={(value) => handle_firstname(value)}
-            onEndEditing={(ele) => {
-              handleValidFirstName(ele.nativeEvent.text);
-            }}
-          ></TextInput>
+      <ScrollView>
+        {/* <View style={style.container}> */}
+        <View style={style.header}>
+          <Text style={style.title}>Welcome!</Text>
+          <Text style={style.sub_title}>Create new account</Text>
         </View>
-        {formData.isValidFirst ? null : (
-          <Text style={style.errMsg}>Invalid Firstname !</Text>
-        )}
+        {/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
+        <View style={style.footer}>
+          {/** FirstName Field*/}
+          <View style={style.block}>
+            <AntDesign
+              name="user"
+              size={24}
+              color="black"
+              style={style.block_icon}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="First Name"
+              style={style.block_text}
+              value={formData.FirstName}
+              onChangeText={(value) => handle_firstname(value)}
+              onEndEditing={(ele) => {
+                handleValidFirstName(ele.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          {formData.isValidFirst ? null : (
+            <Text style={style.errMsg}>Invalid Firstname !</Text>
+          )}
 
-        {/** LastName Field*/}
-        <View style={style.block}>
-          <AntDesign
-            name="user"
-            size={24}
-            color="black"
-            style={style.block_icon}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Last Name"
-            style={style.block_text}
-            value={formData.LastName}
-            onChangeText={(value) => handle_lastname(value)}
-            onEndEditing={(ele) => {
-              handleValidLastName(ele.nativeEvent.text);
-            }}
-          ></TextInput>
-        </View>
-        {formData.isValidLast ? null : (
-          <Text style={style.errMsg}>Invalid Lastname !</Text>
-        )}
+          {/** LastName Field*/}
+          <View style={style.block}>
+            <AntDesign
+              name="user"
+              size={24}
+              color="black"
+              style={style.block_icon}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Last Name"
+              style={style.block_text}
+              value={formData.LastName}
+              onChangeText={(value) => handle_lastname(value)}
+              onEndEditing={(ele) => {
+                handleValidLastName(ele.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          {formData.isValidLast ? null : (
+            <Text style={style.errMsg}>Invalid Lastname !</Text>
+          )}
 
-        {/** Age Field */}
-        <View style={style.block}>
-          <Feather
-            style={style.block_icon}
-            name="calendar"
-            size={24}
-            color="black"
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Age"
-            style={style.block_text}
-            value={formData.Age}
-            onChangeText={(value) => handle_age(value)}
-            onEndEditing={(ele) => {
-              handleValidAge(ele.nativeEvent.text);
-            }}
-          ></TextInput>
-        </View>
-        {formData.isValidAge ? null : (
-          <Text style={style.errMsg}>Invalid Age !</Text>
-        )}
+          {/** Age Field */}
+          <View style={style.block}>
+            <Feather
+              style={style.block_icon}
+              name="calendar"
+              size={24}
+              color="black"
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Age"
+              style={style.block_text}
+              value={formData.Age}
+              onChangeText={(value) => handle_age(value)}
+              onEndEditing={(ele) => {
+                handleValidAge(ele.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          {formData.isValidAge ? null : (
+            <Text style={style.errMsg}>Invalid Age !</Text>
+          )}
 
-        {/** Phone Field */}
-        <View style={style.block}>
-          <Feather
-            style={style.block_icon}
-            name="phone"
-            size={24}
-            color="black"
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Phone No. (optional)"
-            style={style.block_text}
-            onChangeText={(value) => handlePhone(value)}
-          ></TextInput>
-        </View>
+          {/** Phone Field */}
+          <View style={style.block}>
+            <Feather
+              style={style.block_icon}
+              name="phone"
+              size={24}
+              color="black"
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Phone No. (optional)"
+              style={style.block_text}
+              onChangeText={(value) => handlePhone(value)}
+            ></TextInput>
+          </View>
 
-        {/** Email Field*/}
-        <View style={style.block}>
-          <Fontisto
-            style={style.block_icon}
-            name="email"
-            size={24}
-            color="black"
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Email"
-            style={style.block_text}
-            value={formData.Email}
-            onChangeText={(value) => handle_email(value)}
-            onEndEditing={(ele) => {
-              handleValidEmail(ele.nativeEvent.text);
-            }}
-          ></TextInput>
-        </View>
-        {formData.isValidEmail ? null : (
-          <Text style={style.errMsg}>Invalid Email !</Text>
-        )}
+          {/** Email Field*/}
+          <View style={style.block}>
+            <Fontisto
+              style={style.block_icon}
+              name="email"
+              size={24}
+              color="black"
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Email"
+              style={style.block_text}
+              value={formData.Email}
+              onChangeText={(value) => handle_email(value)}
+              onEndEditing={(ele) => {
+                handleValidEmail(ele.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          {formData.isValidEmail ? null : (
+            <Text style={style.errMsg}>Invalid Email !</Text>
+          )}
 
-        {/** Password Field */}
-        <View style={style.block}>
-          <MaterialIcons
-            style={style.block_icon}
-            name="lock-outline"
-            size={24}
-            color="black"
-          />
-          <TextInput
-            style={style.block_text}
-            placeholder="Password"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            value={formData.Password}
-            onChangeText={(value) => handle_password(value)}
-            onEndEditing={(ele) => {
-              handleValidPassword(ele.nativeEvent.text);
-            }}
-          ></TextInput>
-        </View>
-        {formData.isValidPassword ? null : (
-          <Text style={style.errMsg}>Minimum password length:8 !</Text>
-        )}
+          {/** Password Field */}
+          <View style={style.block}>
+            <MaterialIcons
+              style={style.block_icon}
+              name="lock-outline"
+              size={24}
+              color="black"
+            />
+            <TextInput
+              style={style.block_text}
+              placeholder="Password"
+              secureTextEntry={true}
+              autoCapitalize="none"
+              value={formData.Password}
+              onChangeText={(value) => handle_password(value)}
+              onEndEditing={(ele) => {
+                handleValidPassword(ele.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          {formData.isValidPassword ? null : (
+            <Text style={style.errMsg}>Minimum password length:8 !</Text>
+          )}
 
-        {/** Terms and Conditions Element */}
-        <View style={style.terms}>
-          <Switch onValueChange={toggleSwitch} value={isEnabled}></Switch>
-          <Text style={style.terms_text}>Agree to </Text>
+          {/** Terms and Conditions Element */}
+          <View style={style.terms}>
+            <Switch onValueChange={toggleSwitch} value={isEnabled}></Switch>
+            <Text style={style.terms_text}>Agree to </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.push("TermsAndConditions");
+              }}
+            >
+              <Text style={style.terms_link}>terms and conditions</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/** Sign Up Button */}
           <TouchableOpacity
-            onPress={() => {
-              navigation.push("TermsAndConditions");
-            }}
+            onPress={handleSignUpValidation}
+            disabled={
+              !(
+                isEnabled &&
+                formData.isValidLast &&
+                formData.isValidFirst &&
+                formData.isValidAge &&
+                formData.isValidEmail &&
+                formData.isValidPassword
+              )
+            }
+            style={style.sign_up}
           >
-            <Text style={style.terms_link}>terms and conditions</Text>
+            <Text style={style.btn_text}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-
-        {/** Sign Up Button */}
-        <TouchableOpacity
-          onPress={handleSignUpValidation}
-          disabled={
-            !(
-              isEnabled &&
-              formData.isValidLast &&
-              formData.isValidFirst &&
-              formData.isValidAge &&
-              formData.isValidEmail &&
-              formData.isValidPassword
-            )
-          }
-          style={style.sign_up}
-        >
-          <Text style={style.btn_text}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-      {/* </ScrollView> */}
-      {/* </View> */}
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }

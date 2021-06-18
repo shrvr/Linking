@@ -1,25 +1,44 @@
-import React, { useState } from "react";
-import { StyleSheet, Button, Text, View, TouchableOpacity } from "react-native";
-
-import Card from "./Card";
+import React from "react";
+import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import findTPImage from "../../../assets/option1.jpg";
+import CardStyle from "./CardStyle";
 import findLPImage from "../../../assets/option2.jpg";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Card title="Find Travel Partner" image={findTPImage} />
-      <Card title="Find Near by People" image={findLPImage} />
+    <View style={CardStyle.container}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.push("Places");
+        }}
+      >
+        <ImageBackground
+          style={CardStyle.image}
+          imageStyle={{
+            borderRadius: 30,
+          }}
+          source={findTPImage}
+        >
+          <Text style={CardStyle.textDesign}>Find Nearby Places</Text>
+        </ImageBackground>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          console.log("hello");
+        }}
+      >
+        <ImageBackground
+          style={CardStyle.image}
+          imageStyle={{
+            borderRadius: 30,
+          }}
+          source={findLPImage}
+        >
+          <Text style={CardStyle.textDesign}>Find Nearby Places</Text>
+        </ImageBackground>
+      </TouchableOpacity>
     </View>
   );
 };
 
 export default HomeScreen;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
