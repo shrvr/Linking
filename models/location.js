@@ -3,8 +3,14 @@ const { Schema } = mongoose;
 
 const locationSchema = new Schema({
     _user: Schema.Types.ObjectId,
-    latitude: String,
-    longitude: String
+    latitude: {
+        type: String,
+        required: true
+    },
+    longitude: {
+        type: String,
+        required: true
+    },
 });
 
 mongoose.model('locations', locationSchema);

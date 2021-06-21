@@ -3,9 +3,19 @@ const { Schema } = mongoose;
 
 const placeSchema = new Schema({
     _user: Schema.Types.ObjectId,
-    latitude: String,
-    longitude: String,
-    date: Date,
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    latitude: {
+        type: String,
+        required: true
+    },
+    longitude: {
+        type: String,
+        required: true
+    }
 });
 
 mongoose.model('places', placeSchema);

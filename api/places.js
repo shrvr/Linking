@@ -7,13 +7,13 @@ const Place = mongoose.model('places');
 const User = mongoose.model('users');
 
 router.post('/add', auth, async (req, res) => {
-    const { longitude, latitude, date } = req.body;
+    const { name, longitude, latitude } = req.body;
     const _user = req.body._id
     const place = new Place({
         _user,
+        name,
         longitude,
-        latitude,
-        date
+        latitude
     });
 
     try {
@@ -23,22 +23,9 @@ router.post('/add', auth, async (req, res) => {
     }
 });
 
-router.get('/upcoming', auth, async (req, res) => {
-    const currentDate = new Date();
+router.get('/all', auth, async (req, res) => {
     try {
-        await Place.find({ _user: req.user._id }, { date: { $gte: currentDate } })
-            .then(response => {
-                res.send(response)
-            })
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
-router.get('/previous', auth, async (req, res) => {
-    const currentDate = new Date();
-    try {
-        await Place.find({ _user: req.user._id }, { date: { $lt: currentDate } })
+        await Place.find({ _user: req.user._id })
             .then(response => {
                 res.send(response)
             })
@@ -52,7 +39,7 @@ router.get('/usersbyTripId', auth, async (req, res) => {
     try {
         await Place.findById(_trip)
             .then(async response => {
-                await Place.find({ longitude: response.longitude, latitude: response.latitude, date: response.date })
+                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude })
                     .then(async resp => {
                         let users = [];
                         resp.map(async val => {
