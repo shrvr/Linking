@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
+import { Platform, Text, View, StyleSheet, ActivityIndicator } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
+import googleApiKey from "../../config/keys";
 import styles from "./styles";
 
 export default function MapViewScreen({ route, navigation }) {
@@ -13,7 +14,8 @@ export default function MapViewScreen({ route, navigation }) {
   const [getAllPlaces, setAllPlaces] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
   const t = route.params.text;
-  console.log(t);
+
+  const KEY = Object.values(googleApiKey);
 
   useEffect(() => {
     (async () => {
@@ -29,18 +31,18 @@ export default function MapViewScreen({ route, navigation }) {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
+      setPlace(t);
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
-      setPlace(t);
 
       if (latitude != null && longitude != null && place != null) {
         getPlaces();
       }
-    })();
-  }, []);
+    })
+      ();
+  }, [latitude, longitude, place]);
 
   const getPlacesUrl = (lat, long, radius, type, apiKey) => {
     const baseUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
@@ -51,9 +53,8 @@ export default function MapViewScreen({ route, navigation }) {
   };
 
   const getPlaces = () => {
-    const GOOGLE_API_KEY = "AIzaSyAyfVMMeTvKuaYg1cPWWNuI3kJ68OObxyk";
     const markers = [];
-    const url = getPlacesUrl(latitude, longitude, 3000, place, GOOGLE_API_KEY);
+    const url = getPlacesUrl(latitude, longitude, 50000, place, KEY[0]);
     console.log(url);
     fetch(url)
       .then((res) => res.json())
@@ -73,13 +74,6 @@ export default function MapViewScreen({ route, navigation }) {
         setAllPlaces(markers);
       });
   };
-
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
 
   return (
     <View style={styles.container}>
@@ -110,12 +104,11 @@ export default function MapViewScreen({ route, navigation }) {
             ))}
           </MapView>
         ) : (
-          <Text>No data found</Text>
+          <View style={styles.progress}>
+            <ActivityIndicator />
+          </View>
         )}
       </View>
-      {/* <View style={styles.placeList}>
-                    <PlaceList places={places} />
-                </View> */}
     </View>
   );
 }
