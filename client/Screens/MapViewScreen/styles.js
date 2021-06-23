@@ -14,5 +14,10 @@ export default StyleSheet.create({
     placeList: {
         flex: 1,
         justifyContent: "center"
+    },
+    progress: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     }
 });
