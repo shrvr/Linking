@@ -54,7 +54,7 @@ export default function MapViewScreen({ route, navigation }) {
 
   const getPlaces = () => {
     const markers = [];
-    const url = getPlacesUrl(latitude, longitude, 50000, place, KEY[0]);
+    const url = getPlacesUrl(latitude, longitude, 5000, place, KEY[0]);
     console.log(url);
     fetch(url)
       .then((res) => res.json())
