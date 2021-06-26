@@ -42,6 +42,23 @@ export async function EditUser(item) {
     }
 }
 
+export async function addPlace(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/places/add`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export async function signUp(item) {
     try {
         const res = await fetch(`${baseUrl}/users/signUp`, {

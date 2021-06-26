@@ -216,8 +216,8 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator>
                     {state.userToken == '' ||
-                    state.userToken == null ||
-                    state.userToken == undefined ? (
+                        state.userToken == null ||
+                        state.userToken == undefined ? (
                         <React.Fragment>
                             <Stack.Screen
                                 options={{ headerShown: false }}
