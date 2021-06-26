@@ -21,11 +21,9 @@ const CardComp = (props) => {
             ();
     }, []);
 
-    const toggleSwitch = () => {
-        console.log(isEnabled)
+    const toggleSwitch = async () => {
         setIsEnabled(previousState => !previousState);
-        console.log(isEnabled)
-        // await toggleShare({ _trip: tripId, share: isEnabled })
+        await toggleShare({ _trip: tripId, share: !isEnabled })
     }
     const deleteTrip = async () => {
         await deletePlace({ _trip: tripId });
