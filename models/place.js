@@ -15,6 +15,14 @@ const placeSchema = new Schema({
     longitude: {
         type: String,
         required: true
+    },
+    vicinity: {
+        type: String,
+        required: true
+    },
+    share: {
+        type: Boolean,
+        default: true
     }
 });
 

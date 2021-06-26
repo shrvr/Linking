@@ -95,7 +95,7 @@ export default function MapViewScreen({ route, navigation }) {
 
   const handleAddPlace = async () => {
     console.log("handle add place called", placeData)
-    let obj = { name: placeData.name, longitude: placeData.longitude, latitude: placeData.latitude }
+    let obj = { name: placeData.name, longitude: placeData.longitude, latitude: placeData.latitude, vicinity: placeData.vicinity }
     await addPlace(obj);
   }
 
