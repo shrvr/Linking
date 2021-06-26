@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet, ActivityIndicator, TouchableHighlight, TouchableOpacity } from "react-native";
+import { Platform, Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import googleApiKey from "../../config/keys";
 import styles from "./styles";
 import { addPlace } from "../../api/index";
-import style from "../SignUpScreen/style";
 
 export default function MapViewScreen({ route, navigation }) {
   const [location, setLocation] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [place, setPlace] = useState("");
+  const [place, setPlace] = useState('');
   const [getAllPlaces, setAllPlaces] = useState([]);
   const [placeData, setPlaceData] = useState({
     name: '',
@@ -21,7 +20,6 @@ export default function MapViewScreen({ route, navigation }) {
     vicinity: ''
   });
   const [errorMsg, setErrorMsg] = useState(null);
-  const t = route.params.text;
 
   const KEY = Object.values(googleApiKey);
 
@@ -39,17 +37,22 @@ export default function MapViewScreen({ route, navigation }) {
         setErrorMsg("Permission to access location was denied");
         return;
       }
+      let t = route.params.text;
       setPlace(t);
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+      });
       setLocation(location);
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
-
-      if (latitude != null && longitude != null && place != null) {
-        getPlaces();
-      }
     })
       ();
+  }, []);
+
+  useEffect(() => {
+    if (latitude != null && longitude != null && place != null) {
+      getPlaces();
+    }
   }, [latitude, longitude, place]);
 
   const getPlacesUrl = (lat, long, radius, type, apiKey) => {
@@ -60,11 +63,11 @@ export default function MapViewScreen({ route, navigation }) {
     return `${baseUrl}${location}${typeData}${api}`;
   };
 
-  const getPlaces = () => {
+  const getPlaces = async () => {
     const markers = [];
     const url = getPlacesUrl(latitude, longitude, 5000, place, KEY[0]);
     console.log(url);
-    fetch(url)
+    await fetch(url)
       .then((res) => res.json())
       .then((res) => {
         res.results.map((element, index) => {
