@@ -59,6 +59,56 @@ export async function addPlace(item) {
     }
 }
 
+export async function getAllPlaces() {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/places/all`, {
+            method: 'GET',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function deletePlace(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/places/delete`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function toggleShare(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/places/toggleShare`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export async function signUp(item) {
     try {
         const res = await fetch(`${baseUrl}/users/signUp`, {
