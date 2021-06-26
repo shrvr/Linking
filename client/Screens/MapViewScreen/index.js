@@ -84,7 +84,6 @@ export default function MapViewScreen({ route, navigation }) {
   };
 
   const markerClick = (event, i) => {
-    console.log(i, getAllPlaces[i])
     setPlaceData((currentState) => ({
       ...currentState,
       name: getAllPlaces[i].name,
