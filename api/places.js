@@ -8,7 +8,7 @@ const User = mongoose.model('users');
 
 router.post('/add', auth, async (req, res) => {
     const { name, longitude, latitude } = req.body;
-    const _user = req.body._id
+    const _user = req.user._id
     const place = new Place({
         _user,
         name,
