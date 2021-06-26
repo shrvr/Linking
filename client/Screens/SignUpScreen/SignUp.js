@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { signUp, setStorage, getStorage } from "../../api/index";
 import {
   View,
   Text,
@@ -178,7 +177,7 @@ export default function SignUp({ navigation }) {
   };
 
   // for entering data in backend
-  async function handleSignUpValidation() {
+  function handleSignUpValidation() {
     let item = {
       firstName: formData.FirstName,
       lastName: formData.LastName,
@@ -189,7 +188,7 @@ export default function SignUp({ navigation }) {
       terms: isEnabled,
     };
 
-    await signUp(item);
+    signUp(item);
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, FlatList} from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 
 // importing stylesheet
 import styles from './style';
@@ -7,7 +7,7 @@ import styles from './style';
 import CardComp from './CardComp';
 
 const dataSource = [
-    { 
+    {
         id: 0,
         placename: "McDonald's",
         placelocation: "Windsor"
@@ -52,21 +52,31 @@ const dataSource = [
         placename: "Art Museum",
         placelocation: "Toronto"
     },
+    {
+        id: 9,
+        placename: "Art Museum",
+        placelocation: "Toronto"
+    },
+    {
+        id: 10,
+        placename: "Art Museum",
+        placelocation: "Toronto"
+    },
 ]
 
 export default function InterestedPlaces() {
     return (
         <View style={styles.container}>
-                <FlatList 
-                    data={dataSource}
-                    keyExtractor={item => item.id}
-                    renderItem={ ( {item} ) => {
-                        return <CardComp 
-                            pname={item.placename}
-                            plocation={item.placelocation}
-                        />
-                    }}
-                />
+            <FlatList
+                data={dataSource}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => {
+                    return <CardComp
+                        pname={item.placename}
+                        plocation={item.placelocation}
+                    />
+                }}
+            />
         </View>
     );
 }
