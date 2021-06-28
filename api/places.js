@@ -67,12 +67,15 @@ router.get('/usersbyTripId', auth, async (req, res) => {
                 await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
                     .then(async resp => {
                         let users = [];
-                        resp.map(async val => {
-                            await User.findOne({ _id: val._user }).then(details => {
+                        for(let i=0; i<resp.length; i++){
+                            await User.findOne({ _id: resp[i]._user }).then(details => {
                                 users.push(details);
                             })
+                        }
+                        const new_users = users.filter(user => {
+                            return user.userId != req.user.userId
                         })
-                        res.send(users)
+                        res.send(new_users)
                     })
             })
     } catch (err) {
