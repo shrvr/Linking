@@ -109,6 +109,24 @@ export async function toggleShare(item) {
     }
 }
 
+// code for fetching list of matched users as per same trip
+export async function getMatchedUsers(tripId) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/places/usersbyTripId?_trip=${tripId}`, {
+            method: 'GET',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
 export async function signUp(item) {
     try {
         const res = await fetch(`${baseUrl}/users/signUp`, {
