@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, Text, Switch, TouchableOpacity } from 'react-native';
+import { View, Text, Switch, TouchableOpacity } from 'react-native';
 
 // importing stylesheet
 import styles from './style';
@@ -8,6 +8,7 @@ import styles from './style';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { deletePlace, toggleShare } from "../../api/index";
+
 
 const CardComp = (props) => {
     const [isEnabled, setIsEnabled] = useState(false);
@@ -28,6 +29,12 @@ const CardComp = (props) => {
     const deleteTrip = async () => {
         await deletePlace({ _trip: tripId });
     }
+
+    // method for displaying matched users
+    const displayMatchedUsers = () => {
+        props.navigateTo.push("MatchedUsersList", {tripId: props._trip});
+    }
+
     return (
         <View style={styles.card}>
             <View style={styles.card_body}>
@@ -37,20 +44,23 @@ const CardComp = (props) => {
                     <Text style={styles.locationName}>{props.plocation}</Text>
                 </View>
             </View>
-            <TouchableOpacity>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#02a3bb" }}
-                    thumbColor={isEnabled ? "#02495d" : "#f4f3f4"}
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <AntDesign name="search1" size={30} color="#02495d" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <AntDesign name="delete" size={30} color="#02495d" onPress={deleteTrip} />
-            </TouchableOpacity>
+            <View style={styles.card_body_controls}> 
+                <TouchableOpacity>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#02a3bb" }}
+                        thumbColor={isEnabled ? "#02495d" : "#f4f3f4"}
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <AntDesign name="search1" size={30} color="#02495d" 
+                               onPress={displayMatchedUsers}/>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <AntDesign name="delete" size={30} color="#02495d" onPress={deleteTrip} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
