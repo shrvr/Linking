@@ -52,6 +52,16 @@ router.get('/get', auth, async (req, res) => {
     res.send(req.user);
 });
 
+router.get('/get/:Id', auth, async (req, res) => {
+    try {
+        const details = await User.findById(req.query.Id);
+        res.status(200).json(details);
+    }
+    catch (err) {
+        res.status(422).json(err);
+    }
+});
+
 router.post('/edit', auth, async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['password', 'mobile', 'age'];

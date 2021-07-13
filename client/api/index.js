@@ -24,6 +24,23 @@ export async function GetUser() {
     }
 }
 
+export async function GetUserbyId(item) {
+    try {
+
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/users/get?Id=${item}`, {
+            method: 'GET',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export async function EditUser(item) {
     try {
 
@@ -149,6 +166,79 @@ export async function signIn(item) {
                 headers: headers,
             }
         );
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function getConversations() {
+    try {
+        const token = await getStorage();
+        const res = await fetch(
+            `${baseUrl}/conversations`,
+            {
+                method: 'GET',
+                headers: {
+                    ...headers,
+                    "Authorization": "Bearer " + token
+                },
+            }
+        );
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function postConversation(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/conversations`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+export async function getChats(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(
+            `${baseUrl}/chats?` + new URLSearchParams(item),
+            {
+                method: 'GET',
+                headers: {
+                    ...headers,
+                    "Authorization": "Bearer " + token
+                },
+            }
+        );
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function postChats(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/chats`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
         return await res.json();
     } catch (e) {
         console.log(e);

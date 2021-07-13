@@ -7,7 +7,7 @@ import styles from './style';
 import CardComp from './CardComp';
 import { getAllPlaces } from "../../api/index";
 
-export default function InterestedPlaces({navigation}) {
+export default function InterestedPlaces({ navigation }) {
     const [allPlaces, setAllPlaces] = useState([]);
     useEffect(() => {
         (async () => {
