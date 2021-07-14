@@ -7,7 +7,7 @@ const Conversation = mongoose.model('conversation');
 
 router.post('/', auth, async (req, res) => {
     const conversation = new Conversation({
-        members: [req.user._id, req.body.receiverId]
+        members: [req.user._id, mongoose.Types.ObjectId(req.body.receiverId)]
     });
     try {
         const savedconv = await conversation.save();
