@@ -17,6 +17,7 @@ import MapView from './Screens/MapViewScreen';
 import InterestedPlaces from './Screens/InterestedPlaces';
 import ChatHistory from './Screens/ChatHistory';
 import MatchedUsersList from './Screens/MatchedUsersList';
+import ChatWindow from './Screens/ChatWindow';
 
 import * as UsersAPI from './api/index';
 
@@ -63,8 +64,12 @@ function ChatHistoryStackScreen() {
     return (
         <ChatHistoryStack.Navigator>
             <ChatHistoryStack.Screen
-                name="Chat History"
+                name="ChatHistory"
                 component={ChatHistory}
+            />
+            <ChatHistoryStack.Screen
+                name="ChatWindow"
+                component={ChatWindow}
             />
         </ChatHistoryStack.Navigator>
     );
@@ -80,6 +85,10 @@ function InterestedPlacesStackScreen() {
             <InterestedPlacesStack.Screen
                 name="MatchedUsersList"
                 component={MatchedUsersList} 
+            />
+            <InterestedPlacesStack.Screen
+                name="ChatWindow"
+                component={ChatWindow} 
             />
         </InterestedPlacesStack.Navigator>
     );

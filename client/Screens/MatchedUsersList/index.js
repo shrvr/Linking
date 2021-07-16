@@ -19,10 +19,11 @@ export default function MatchedUserList({ route, navigation }) {
     useEffect(() => {
         async function fetchUsers(){
             const users = await getMatchedUsers(tripId);
+            console.log(users)
             setMatchedUsers(users);
         }
         fetchUsers();
-    }, [MatchedUsers]);
+    }, []);
 
 
     return (
@@ -35,6 +36,8 @@ export default function MatchedUserList({ route, navigation }) {
                             fname={item.firstName}
                             lname={item.lastName}
                             age={item.age}
+                            navigateTo={navigation}
+                            matchedUserID={item._id}
                         />
                     }}
                 />

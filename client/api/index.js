@@ -28,7 +28,7 @@ export async function GetUserbyId(item) {
     try {
 
         const token = await getStorage();
-        const res = await fetch(`${baseUrl}/users/get?Id=${item}`, {
+        const res = await fetch(`${baseUrl}/users/get/${item}`, {
             method: 'GET',
             headers: {
                 ...headers,
@@ -193,6 +193,7 @@ export async function getConversations() {
 
 export async function postConversation(item) {
     try {
+        console.log("inside api")
         const token = await getStorage();
         const res = await fetch(`${baseUrl}/conversations`, {
             method: 'POST',
@@ -223,6 +224,28 @@ export async function getChats(item) {
             }
         );
         return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+export async function getLatestMessage(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(
+            `${baseUrl}/chats/latest?` + new URLSearchParams(item),
+            {
+                method: 'GET',
+                headers: {
+                    ...headers,
+                    "Authorization": "Bearer " + token
+                },
+            }
+        );
+        const msg = await res.json();
+        // console.log(msg)
+        return msg
     } catch (e) {
         console.log(e);
     }
