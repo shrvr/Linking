@@ -43,7 +43,7 @@ router.get('/usersbyTripId', auth, async (req, res) => {
                     .then(async resp => {
                         let users = [];
                         resp.map(async val => {
-                            await User.findOne({ _id: val._user }).then(details => {
+                            await User.findOne({ _id: val._user }).then(async details => {
                                 const block = await Block.find({ from: req.user._id })
                                 if (block)
                                     if (res.statusCheck) {
