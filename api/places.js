@@ -35,50 +35,54 @@ router.get('/all', auth, async (req, res) => {
     }
 });
 
-router.post('/toggleShare', auth, async (req, res) => {
-    const { _trip, share } = req.body;
-    try {
-        await Place.findByIdAndUpdate(_trip, { share })
-            .then(response => {
-                res.send("updated")
-            })
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
-router.post('/delete', auth, async (req, res) => {
-    const { _trip } = req.body;
-    try {
-        await Place.findByIdAndDelete(_trip)
-            .then(response => {
-                res.send("Trip deleted successfully")
-            })
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
 router.get('/usersbyTripId', auth, async (req, res) => {
     const { _trip } = req.query;
     try {
         await Place.findById(_trip)
             .then(async response => {
-                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
+                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude })
                     .then(async resp => {
                         let users = [];
-                        for(let i=0; i<resp.length; i++){
-                            await User.findOne({ _id: resp[i]._user }).then(details => {
-                                users.push(details);
+                        resp.map(async val => {
+                            await User.findOne({ _id: val._user }).then(details => {
+                                const block = await Block.find({ from: req.user._id })
+                                if (block)
+                                    if (res.statusCheck) {
+                                        if (details._id != res.to) {
+                                            users.push(details);
+                                        }
+                                    } else {
+                                        users.push(details);
+                                    }
+                                else
+                                    users.push(details);
                             })
-                        }
-                        const new_users = users.filter(user => {
-                            return user.userId != req.user.userId
                         })
-                        res.send(new_users)
+                        res.send(users)
                     })
             })
     } catch (err) {
         res.status(422).send(err);
     }
 });
+
+/*
+const { _trip } = req.query;
+    try {
+        await Place.findById(_trip)
+            .then(async response => {
+                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude })
+                    .then(async resp => {
+                        let users = [];
+                        resp.map(async val => {
+                            await User.findOne({ _id: val._user }).then(details => {
+                                users.push(details);
+                            })
+                        })
+                        res.send(users)
+                    })
+            })
+    } catch (err) {
+        res.status(422).send(err);
+    }
+    */

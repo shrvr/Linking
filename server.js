@@ -9,6 +9,7 @@ require('./models/place');
 require('./models/location');
 require('./models/conversation');
 require('./models/chat');
+require('./models/block');
 
 mongoose.connect(keys.mongoURI, {
     useNewUrlParser: true,
