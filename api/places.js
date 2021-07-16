@@ -7,14 +7,13 @@ const Place = mongoose.model('places');
 const User = mongoose.model('users');
 
 router.post('/add', auth, async (req, res) => {
-    const { name, longitude, latitude, vicinity } = req.body;
-    const _user = req.user._id
+    const { name, longitude, latitude } = req.body;
+    const _user = req.body._id
     const place = new Place({
         _user,
         name,
         longitude,
-        latitude,
-        vicinity
+        latitude
     });
 
     try {
@@ -35,50 +34,55 @@ router.get('/all', auth, async (req, res) => {
     }
 });
 
-router.post('/toggleShare', auth, async (req, res) => {
-    const { _trip, share } = req.body;
-    try {
-        await Place.findByIdAndUpdate(_trip, { share })
-            .then(response => {
-                res.send("updated")
-            })
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
-router.post('/delete', auth, async (req, res) => {
-    const { _trip } = req.body;
-    try {
-        await Place.findByIdAndDelete(_trip)
-            .then(response => {
-                res.send("Trip deleted successfully")
-            })
-    } catch (err) {
-        res.status(422).send(err);
-    }
-});
-
 router.get('/usersbyTripId', auth, async (req, res) => {
     const { _trip } = req.query;
     try {
         await Place.findById(_trip)
             .then(async response => {
-                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
+                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude })
                     .then(async resp => {
                         let users = [];
-                        for(let i=0; i<resp.length; i++){
-                            await User.findOne({ _id: resp[i]._user }).then(details => {
-                                users.push(details);
+                        resp.map(async val => {
+                            await User.findOne({ _id: val._user }).then(details => {
+
+                                await Block.find({ _user: req.user._id })
+                                    .then(async res => {
+                                        if (res.statusCheck) {
+                                            if (details._id != res.recievedId) {
+                                                users.push(details);
+                                            }
+                                        } else {
+                                            users.push(details);
+                                        }
+                                    })
+
+                                //users.push(details);
                             })
-                        }
-                        const new_users = users.filter(user => {
-                            return user.userId != req.user.userId
                         })
-                        res.send(new_users)
+                        res.send(users)
                     })
             })
     } catch (err) {
         res.status(422).send(err);
     }
 });
+/*
+const { _trip } = req.query;
+    try {
+        await Place.findById(_trip)
+            .then(async response => {
+                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude })
+                    .then(async resp => {
+                        let users = [];
+                        resp.map(async val => {
+                            await User.findOne({ _id: val._user }).then(details => {
+                                users.push(details);
+                            })
+                        })
+                        res.send(users)
+                    })
+            })
+    } catch (err) {
+        res.status(422).send(err);
+    }
+    */
