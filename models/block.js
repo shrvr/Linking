@@ -15,7 +15,7 @@ const blockSchema = new Schema({
     statusCheck: {
         type: String,
         required: true,
-        trim: ture,
+        trim: true,
     },
 });
 
