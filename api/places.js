@@ -7,14 +7,13 @@ const Place = mongoose.model('places');
 const User = mongoose.model('users');
 
 router.post('/add', auth, async (req, res) => {
-    const { name, longitude, latitude, vicinity } = req.body;
-    const _user = req.user._id
+    const { name, longitude, latitude } = req.body;
+    const _user = req.body._id
     const place = new Place({
         _user,
         name,
         longitude,
-        latitude,
-        vicinity
+        latitude
     });
 
     try {
@@ -65,7 +64,6 @@ router.get('/usersbyTripId', auth, async (req, res) => {
         res.status(422).send(err);
     }
 });
-
 /*
 const { _trip } = req.query;
     try {
