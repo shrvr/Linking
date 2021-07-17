@@ -70,8 +70,8 @@ router.get('/usersbyTripId', auth, async (req, res) => {
                         let users = [];
                         for (let i = 0; i < resp.length; i++) {
                             await User.findOne({ _id: resp[i]._user }).then(details => {
-                                if (details._id == req.user._id)
-                                    continue
+                                if (details._id === req.user._id)
+                                    return
 
                                 let block = blocks.find(ele => ele.to = details._id)
                                 if (block && block.statusCheck) {
