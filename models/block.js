@@ -19,4 +19,4 @@ const blockSchema = new Schema({
     },
 });
 
-mongoose.model('block', blockSchema);
+mongoose.model('blocks', blockSchema);
