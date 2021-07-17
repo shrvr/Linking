@@ -7,9 +7,9 @@ const mongoose = require('mongoose');
 const Block = mongoose.model('block');
 
 router.post('/block', auth, async (req, res) => {
-    const { receiverId, statusCheck } = req.body;
+    const { to, statusCheck } = req.body;
     try {
-        const block = await Block.findOne({ from: req.body._id, to: receiverId, });
+        const block = await Block.findOne({ from: req.user._id, to, });
         if (block)
             await Block.findByIdAndUpdate(block._id, { statusCheck })
                 .then(response => {
@@ -17,8 +17,8 @@ router.post('/block', auth, async (req, res) => {
                 });
         else {
             const block = new Block({
-                from: req.body._id,
-                to: receiverId,
+                from: req.user._id,
+                to,
                 statusCheck,
             });
             await block.save().then(response => { res.status(200).json(response); });
