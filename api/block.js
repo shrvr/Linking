@@ -6,12 +6,12 @@ const mongoose = require('mongoose');
 
 const Block = mongoose.model('blocks');
 
-router.post('/block', auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { to, statusCheck } = req.body;
     try {
         const block = await Block.findOne({ from: req.user._id, to, });
         if (block) {
-            const response = await Block.findByIdAndUpdate(block._id, { statusCheck })
+            const response = await Block.findByIdAndUpdate(block._id, { statusCheck }, { new: true })
             res.status(200).json(response);
         }
         else {
