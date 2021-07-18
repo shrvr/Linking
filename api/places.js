@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const auth = require('../middleware/auth');
 const Place = mongoose.model('places');
 const User = mongoose.model('users');
+const Block = mongoose.model('blocks');
 
 router.post('/add', auth, async (req, res) => {
     const { name, longitude, latitude, vicinity } = req.body;

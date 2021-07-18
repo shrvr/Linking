@@ -220,7 +220,7 @@ export default function App() {
                 try {
                     const token = await UsersAPI.signUp(data);
                     await UsersAPI.setStorage(token._user);
-                    dispatch({ type: 'SIGN_IN', token: token._user });
+                    dispatch({ type: 'SIGN_UP', token: token._user });
                 } catch (error) {
                     console.log(error);
                 }
