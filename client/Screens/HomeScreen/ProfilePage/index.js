@@ -116,7 +116,7 @@ export default function ProfilePage() {
                 mobile: val.Phone,
             });
 
-            alert('changed successfully');
+            //alert('changed successfully');
         } else {
             if (!val.isValidAge) {
                 if (!val.isValidPhone) {

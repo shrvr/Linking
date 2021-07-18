@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import Toast from 'react-native-toast-message';
+import Toast from 'react-native-simple-toast';
 
 const baseUrl = 'https://enigmatic-temple-22499.herokuapp.com/api';
 const headers = {
@@ -53,6 +55,14 @@ export async function EditUser(item) {
                 "Authorization": "Bearer " + token
             },
         });
+
+        if(res.status == 200){
+            Toast.show('Submitted Successfully!')
+        }
+        else{
+            Toast.show('Submission Failed!')
+        }
+
         return await res.json();
     } catch (e) {
         console.log(e);
@@ -151,6 +161,14 @@ export async function signUp(item) {
             body: JSON.stringify(item),
             headers: headers,
         });
+
+        if(res.status == 200){
+            Toast.show('Signed Up!')
+        }
+        else{
+            Toast.show('Signed Up Failed!')
+        }
+
         return await res.json();
     } catch (e) {
         console.log(e);
@@ -166,7 +184,15 @@ export async function signIn(item) {
                 headers: headers,
             }
         );
-        return await res.json();
+
+        if(res.status == 200){
+            Toast.show('Signed In!')
+        }
+        else{
+            Toast.show('Signed In Failed!')
+        }
+        
+        return await res.json()
     } catch (e) {
         console.log(e);
     }

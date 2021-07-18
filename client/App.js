@@ -18,8 +18,9 @@ import InterestedPlaces from './Screens/InterestedPlaces';
 import ChatHistory from './Screens/ChatHistory';
 import MatchedUsersList from './Screens/MatchedUsersList';
 import ChatWindow from './Screens/ChatWindow';
-
+//import Toast from 'react-native-toast-message';
 import * as UsersAPI from './api/index';
+import Toast from 'react-native-simple-toast';
 
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -211,6 +212,16 @@ export default function App() {
             signOut: async () => {
                 await UsersAPI.logout();
                 dispatch({ type: 'SIGN_OUT' });
+                //userToken = await UsersAPI.getStorage();
+                // if(userToken == '' && userToken == null){
+                //     Toast.show('Logged Out Failed!')
+                // }
+                // else{
+                    
+                //     Toast.show('Logged Out!')
+                // }
+
+                Toast.show('Logged Out!')
             },
             signUp: async (data) => {
                 try {
