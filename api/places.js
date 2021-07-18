@@ -67,27 +67,22 @@ router.get('/usersbyTripId', auth, async (req, res) => {
     const { _trip } = req.query;
     try {
         const blocks = await Block.find({ $or: [{ from: req.user._id }, { to: req.user._id }] })
-        await Place.findById(_trip)
-            .then(async response => {
-                await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
-                    .then(async resp => {
-                        let users = [];
-                        for (let i = 0; i < resp.length; i++) {
-                            await User.findOne({ _id: resp[i]._user }).then(details => {
-                                if (details._id === req.user._id)
-                                    return
+        const response = await Place.findById(_trip)
+        const resp = await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
+        let users = [];
+        for (let i = 0; i < resp.length; i++) {
+            let details = await User.findOne({ _id: resp[i]._user })
+            if (details._id.toString() === req.user._id.toString())
+                continue;
 
-                                let block = blocks.filter(ele => (ele.to == details._id || ele.from == details._id) && ele.statusCheck == true);
-                                if (block.length > 0) {
-                                    return;
-                                }
-                                else
-                                    users.push(details);
-                            })
-                        }
-                        res.send(users);
-                    })
-            })
+            let block = blocks.filter(ele => (ele.to == details._id.toString() || ele.from == details._id.toString()) && ele.statusCheck == true);
+            if (block.length > 0) {
+                continue;
+            }
+            else
+                users.push(details);
+        }
+        res.send(users);
     } catch (err) {
         res.status(422).send(err);
     }

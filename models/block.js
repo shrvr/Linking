@@ -13,9 +13,8 @@ const blockSchema = new Schema({
         trim: true,
     },
     statusCheck: {
-        type: String,
-        required: true,
-        trim: true,
+        type: Boolean,
+        required: true
     },
 });
 

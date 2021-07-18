@@ -6,6 +6,7 @@ import * as Location from "expo-location";
 import googleApiKey from "../../config/keys";
 import styles from "./styles";
 import { addPlace } from "../../api/index";
+import Toast from 'react-native-root-toast';
 
 export default function MapViewScreen({ route, navigation }) {
   const [location, setLocation] = useState(null);
@@ -99,7 +100,10 @@ export default function MapViewScreen({ route, navigation }) {
   const handleAddPlace = async () => {
     console.log("handle add place called", placeData)
     let obj = { name: placeData.name, longitude: placeData.longitude, latitude: placeData.latitude, vicinity: placeData.vicinity }
-    await addPlace(obj);
+    let a = await addPlace(obj);
+    Toast.show('Place Added!', {
+      duration: Toast.durations.LONG,
+    })
   }
 
   return (

@@ -8,6 +8,7 @@ import styles from './style';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { deletePlace, toggleShare } from "../../api/index";
+import Toast from 'react-native-root-toast';
 
 
 const CardComp = (props) => {
@@ -25,14 +26,25 @@ const CardComp = (props) => {
     const toggleSwitch = async () => {
         setIsEnabled(previousState => !previousState);
         await toggleShare({ _trip: tripId, share: !isEnabled })
+        if (isEnabled)
+            Toast.show('Sharing disabled', {
+                duration: Toast.durations.SHORT,
+            });
+        else
+            Toast.show('Sharing enabled', {
+                duration: Toast.durations.SHORT,
+            });
     }
     const deleteTrip = async () => {
         await deletePlace({ _trip: tripId });
+        Toast.show('Place Deleted', {
+            duration: Toast.durations.SHORT,
+        });
     }
 
     // method for displaying matched users
     const displayMatchedUsers = () => {
-        props.navigateTo.push("MatchedUsersList", {tripId: props._trip});
+        props.navigateTo.push("MatchedUsersList", { tripId: props._trip });
     }
 
     return (
@@ -44,7 +56,7 @@ const CardComp = (props) => {
                     <Text style={styles.locationName}>{props.plocation}</Text>
                 </View>
             </View>
-            <View style={styles.card_body_controls}> 
+            <View style={styles.card_body_controls}>
                 <TouchableOpacity>
                     <Switch
                         trackColor={{ false: "#767577", true: "#02a3bb" }}
@@ -54,8 +66,8 @@ const CardComp = (props) => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <AntDesign name="search1" size={30} color="#02495d" 
-                               onPress={displayMatchedUsers}/>
+                    <AntDesign name="search1" size={30} color="#02495d"
+                        onPress={displayMatchedUsers} />
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <AntDesign name="delete" size={30} color="#02495d" onPress={deleteTrip} />
