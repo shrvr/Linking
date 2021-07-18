@@ -9,17 +9,21 @@ const User = mongoose.model('users');
 router.post('/add', auth, async (req, res) => {
     const { name, longitude, latitude, vicinity } = req.body;
     const _user = req.user._id
-    const place = new Place({
-        _user,
-        name,
-        longitude,
-        latitude,
-        vicinity
-    });
-
     try {
-        await place.save().then(response => { res.send("place added"); });
-    } catch (err) {
+        const place = await Place.findOne({ _user, longitude, latitude })
+        if (place) res.status(200).send("place already exists");
+        else {
+            const place = new Place({
+                _user,
+                name,
+                longitude,
+                latitude,
+                vicinity
+            });
+            await place.save().then(response => { res.status(200).send("place added"); });
+        }
+    }
+    catch (err) {
         res.status(422).send(err);
     }
 });
