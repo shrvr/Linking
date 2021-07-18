@@ -3,11 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 
 const baseUrl = 'https://enigmatic-temple-22499.herokuapp.com/api';
+const socketUrl = 'ws://enigmatic-temple-22499.herokuapp.com';
 const headers = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
 };
 const storageKey = '_user';
+
+export function getSocketUrl() {
+    return socketUrl;
+}
 
 export async function GetUser() {
     try {
@@ -56,10 +61,10 @@ export async function EditUser(item) {
             },
         });
 
-        if(res.status == 200){
+        if (res.status == 200) {
             Toast.show('Submitted Successfully!')
         }
-        else{
+        else {
             Toast.show('Submission Failed!')
         }
 
@@ -162,10 +167,10 @@ export async function signUp(item) {
             headers: headers,
         });
 
-        if(res.status == 200){
+        if (res.status == 200) {
             Toast.show('Signed Up!')
         }
-        else{
+        else {
             Toast.show('Signed Up Failed!')
         }
 
@@ -185,13 +190,13 @@ export async function signIn(item) {
             }
         );
 
-        if(res.status == 200){
+        if (res.status == 200) {
             Toast.show('Signed In!')
         }
-        else{
+        else {
             Toast.show('Signed In Failed!')
         }
-        
+
         return await res.json()
     } catch (e) {
         console.log(e);

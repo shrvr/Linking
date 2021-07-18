@@ -8,7 +8,7 @@ const User = mongoose.model('users');
 
 router.post('/add', auth, async (req, res) => {
     const { name, longitude, latitude, vicinity } = req.body;
-    const _user = req.body._id
+    const _user = req.user._id
     const place = new Place({
         _user,
         name,
@@ -62,7 +62,7 @@ router.get('/all', auth, async (req, res) => {
 router.get('/usersbyTripId', auth, async (req, res) => {
     const { _trip } = req.query;
     try {
-        const blocks = await Block.find({ from: req.user._id })
+        const blocks = await Block.find({ $or: [{ from: req.user._id }, { to: req.user._id }] })
         await Place.findById(_trip)
             .then(async response => {
                 await Place.find({ name: response.name, longitude: response.longitude, latitude: response.latitude, share: true })
@@ -73,9 +73,9 @@ router.get('/usersbyTripId', auth, async (req, res) => {
                                 if (details._id === req.user._id)
                                     return
 
-                                let block = blocks.find(ele => ele.to = details._id)
-                                if (block && block.statusCheck) {
-                                    users.push(details);
+                                let block = blocks.filter(ele => (ele.to == details._id || ele.from == details._id) && ele.statusCheck == true);
+                                if (block.length > 0) {
+                                    return;
                                 }
                                 else
                                     users.push(details);
