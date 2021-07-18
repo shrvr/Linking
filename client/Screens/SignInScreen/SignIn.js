@@ -7,9 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 // importing stylesheets
 import signInPageStyle from './Style';
-import { useNavigation } from '@react-navigation/core';
 import { AuthContext } from '../../App';
-//import Toast from 'react-native-toast-message';
 
 function SignIn({ navigation }) {
     const { signIn } = React.useContext(AuthContext);
@@ -58,7 +56,7 @@ function SignIn({ navigation }) {
     // Matches User ID and Password
     const handleSignInValidation = () => {
         signIn({ userId: formData.Email, password: formData.Password });
-        
+
     };
 
     // Sign Up navigation

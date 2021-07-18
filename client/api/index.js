@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import Toast from 'react-native-toast-message';
-import Toast from 'react-native-simple-toast';
+import Toast from 'react-native-root-toast';
 
 const baseUrl = 'https://enigmatic-temple-22499.herokuapp.com/api';
 const socketUrl = 'ws://enigmatic-temple-22499.herokuapp.com';
@@ -62,10 +61,14 @@ export async function EditUser(item) {
         });
 
         if (res.status == 200) {
-            Toast.show('Submitted Successfully!')
+            Toast.show('Submitted Successfully!', {
+                duration: Toast.durations.LONG,
+            })
         }
         else {
-            Toast.show('Submission Failed!')
+            Toast.show('Submission Failed!', {
+                duration: Toast.durations.LONG,
+            })
         }
 
         return await res.json();
@@ -168,10 +171,14 @@ export async function signUp(item) {
         });
 
         if (res.status == 200) {
-            Toast.show('Signed Up!')
+            Toast.show('Signed Up!', {
+                duration: Toast.durations.LONG,
+            })
         }
         else {
-            Toast.show('Signed Up Failed!')
+            Toast.show('Signed Up Failed!', {
+                duration: Toast.durations.LONG,
+            })
         }
 
         return await res.json();
@@ -191,10 +198,14 @@ export async function signIn(item) {
         );
 
         if (res.status == 200) {
-            Toast.show('Signed In!')
+            Toast.show('Signed In!', {
+                duration: Toast.durations.LONG,
+            })
         }
         else {
-            Toast.show('Signed In Failed!')
+            Toast.show('Signed In Failed!', {
+                duration: Toast.durations.LONG,
+            })
         }
 
         return await res.json()

@@ -18,9 +18,9 @@ import InterestedPlaces from './Screens/InterestedPlaces';
 import ChatHistory from './Screens/ChatHistory';
 import MatchedUsersList from './Screens/MatchedUsersList';
 import ChatWindow from './Screens/ChatWindow';
-//import Toast from 'react-native-toast-message';
 import * as UsersAPI from './api/index';
-import Toast from 'react-native-simple-toast';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import Toast from 'react-native-root-toast';
 
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -85,11 +85,11 @@ function InterestedPlacesStackScreen() {
             />
             <InterestedPlacesStack.Screen
                 name="MatchedUsersList"
-                component={MatchedUsersList} 
+                component={MatchedUsersList}
             />
             <InterestedPlacesStack.Screen
                 name="ChatWindow"
-                component={ChatWindow} 
+                component={ChatWindow}
             />
         </InterestedPlacesStack.Navigator>
     );
@@ -212,16 +212,9 @@ export default function App() {
             signOut: async () => {
                 await UsersAPI.logout();
                 dispatch({ type: 'SIGN_OUT' });
-                //userToken = await UsersAPI.getStorage();
-                // if(userToken == '' && userToken == null){
-                //     Toast.show('Logged Out Failed!')
-                // }
-                // else{
-                    
-                //     Toast.show('Logged Out!')
-                // }
-
-                Toast.show('Logged Out!')
+                Toast.show('Logged Out!', {
+                    duration: Toast.durations.LONG,
+                })
             },
             signUp: async (data) => {
                 try {
@@ -237,33 +230,35 @@ export default function App() {
     );
 
     return (
-        <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    {state.userToken == '' ||
-                        state.userToken == null ||
-                        state.userToken == undefined ? (
-                        <React.Fragment>
+        <RootSiblingParent>
+            <AuthContext.Provider value={authContext}>
+                <NavigationContainer>
+                    <Stack.Navigator>
+                        {state.userToken == '' ||
+                            state.userToken == null ||
+                            state.userToken == undefined ? (
+                            <React.Fragment>
+                                <Stack.Screen
+                                    options={{ headerShown: false }}
+                                    name="SignIn"
+                                    component={SignIn}
+                                />
+                                <Stack.Screen name="SignUp" component={SignUp} />
+                                <Stack.Screen
+                                    name="TermsAndConditions"
+                                    component={TermsAndConditions}
+                                />
+                            </React.Fragment>
+                        ) : (
                             <Stack.Screen
                                 options={{ headerShown: false }}
-                                name="SignIn"
-                                component={SignIn}
+                                name="DrawerRoutes"
+                                component={DrawerRoutes}
                             />
-                            <Stack.Screen name="SignUp" component={SignUp} />
-                            <Stack.Screen
-                                name="TermsAndConditions"
-                                component={TermsAndConditions}
-                            />
-                        </React.Fragment>
-                    ) : (
-                        <Stack.Screen
-                            options={{ headerShown: false }}
-                            name="DrawerRoutes"
-                            component={DrawerRoutes}
-                        />
-                    )}
-                </Stack.Navigator>
-            </NavigationContainer>
-        </AuthContext.Provider>
+                        )}
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </AuthContext.Provider>
+        </RootSiblingParent>
     );
 }
