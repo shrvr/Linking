@@ -80,8 +80,7 @@ router.get('/usersbyTripId', auth, async (req, res) => {
             if (block.length > 0) {
                 continue;
             }
-            else
-                users.push(details);
+            users.push(details);
         }
         res.send(users);
     } catch (err) {
