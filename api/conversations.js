@@ -21,20 +21,17 @@ router.post('/', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
     try {
         let blocks = await Block.find({ $or: [{ from: req.user._id }, { to: req.user._id }] })
-        let map = new Map();
+        let map = [];
         blocks.forEach(ele => {
             if (ele.from.toString() === req.user._id.toString())
-                map.set(ele.to.toString(), ele.statusCheck);
-            else map.set(ele.from.toString(), ele.statusCheck);
+                map.push({ "blockee": "from", "id": ele.to.toString(), "status": ele.statusCheck });
+            else map.push({ "blockee": "to", "id": ele.from.toString(), "status": ele.statusCheck });
         })
         let conv = await Conversation.find({ members: { $in: [req.user._id] } });
         for (let i = 0; i < conv.length; i++) {
             for (let j = 0; j < conv[i].members.length; j++) {
-                if (map.has(conv[i].members[j].toString())) {
-                    conv[i]._doc.blockStatus = map.get(conv[i].members[j].toString())
-                }
-                else {
-                    conv[i]._doc.blockStatus = false
+                if (map.some(ele => ele.id === conv[i].members[j].toString())) {
+                    conv[i]._doc.blockStatus = map.filter(ele => ele.id === conv[i].members[j].toString())
                 }
             }
         }
