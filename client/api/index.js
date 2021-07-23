@@ -310,6 +310,56 @@ export async function postChats(item) {
     }
 }
 
+export async function getUserLocation(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/locations/update`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function getMatchedNearbyUsers() {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/locations/getNearbyUsers`, {
+            method: 'GET',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function deleteUsersList() {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/locations/delete`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
 export async function setStorage(val) {
     try {
         await AsyncStorage.setItem(storageKey, val);
