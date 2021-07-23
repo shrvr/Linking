@@ -5,6 +5,8 @@ import CardStyle from "./CardStyle";
 import findLPImage from "../../../assets/option2.jpg";
 
 const HomeScreen = ({ route, navigation }) => {
+
+
   return (
     <View style={CardStyle.container}>
       <TouchableOpacity
@@ -24,7 +26,8 @@ const HomeScreen = ({ route, navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          console.log("hello");
+          navigation.push("MatchedUsersList");
+          // getNearbyUsers();
         }}
       >
         <ImageBackground

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, FlatList} from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 
 // importing stylesheet
 import styles from './style';
@@ -15,9 +15,9 @@ export default function MatchedUserList({ route, navigation }) {
     const { tripId } = route.params;
 
     const [MatchedUsers, setMatchedUsers] = useState([]);
- 
+
     useEffect(() => {
-        async function fetchUsers(){
+        async function fetchUsers() {
             const users = await getMatchedUsers(tripId);
             console.log(users)
             setMatchedUsers(users);
@@ -28,19 +28,19 @@ export default function MatchedUserList({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-                <FlatList 
-                    data={MatchedUsers}
-                    keyExtractor={item => item._id}
-                    renderItem={ ( {item} ) => {
-                        return <CardComp 
-                            fname={item.firstName}
-                            lname={item.lastName}
-                            age={item.age}
-                            navigateTo={navigation}
-                            matchedUserID={item._id}
-                        />
-                    }}
-                />
+            <FlatList
+                data={MatchedUsers}
+                keyExtractor={item => item._id}
+                renderItem={({ item }) => {
+                    return <CardComp
+                        fname={item.firstName}
+                        lname={item.lastName}
+                        age={item.age}
+                        navigateTo={navigation}
+                        matchedUserID={item._id}
+                    />
+                }}
+            />
         </View>
     );
 }

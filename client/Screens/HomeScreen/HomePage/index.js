@@ -5,6 +5,7 @@ import HeaderLeft from "../HeaderLeft";
 import HomeScreen from "../HomeScreen";
 import Places from "../Places_Category/Places";
 import MapViewScreen from "../../MapViewScreen";
+import MatchedNearbyUsers from "../MatchedNearbyUsers.js";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const HomePage = () => {
       <Stack.Screen name="Main Page" component={HomeScreen} />
       <Stack.Screen name="Places" component={Places} />
       <Stack.Screen name="MapViewScreen" component={MapViewScreen} />
+      <Stack.Screen name="MatchedUsersList" component={MatchedNearbyUsers} />
     </Stack.Navigator>
   );
 };

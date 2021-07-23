@@ -21,6 +21,7 @@ import ChatWindow from './Screens/ChatWindow';
 import * as UsersAPI from './api/index';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast';
+import MatchedNearbyUsers from './Screens/HomeScreen/MatchedNearbyUsers.js';
 
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -36,6 +37,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Home" component={HomeScreen} />
             <HomeStack.Screen name="Places" component={Places} />
             <HomeStack.Screen name="MapView" component={MapView} />
+            <HomeStack.Screen name="MatchedUsersList" component={MatchedNearbyUsers} />
         </HomeStack.Navigator>
     );
 }
