@@ -3,30 +3,31 @@ module.exports = router;
 
 const mongoose = require('mongoose');
 const auth = require('../middleware/auth');
+const haversine = require('haversine')
 const Location = mongoose.model('locations');
+const User = mongoose.model('users');
 
 router.post('/update', auth, async (req, res) => {
     const { longitude, latitude } = req.body;
     const _user = req.user._id;
     try {
-        await Location.findOne({ _user })
-            .then(async response => {
-                await Location.findByIdAndUpdate(_user, { longitude, latitude })
-                    .then(response => {
-                        res.send("location updated");
-                    });
-            })
-            .catch(async err => {
-                const location = new Location({
-                    _user,
-                    longitude,
-                    latitude
+        const location = await Location.findOne({ _user })
+        if (location) {
+            await Location.findByIdAndUpdate(_user, { longitude, latitude })
+                .then(response => {
+                    res.send("location updated");
                 });
-                await location.save().
-                    then(response => {
-                        res.send("location added");
-                    });
-            })
+        } else {
+            const nwlocation = new Location({
+                _user,
+                longitude,
+                latitude
+            });
+            await nwlocation.save().
+                then(response => {
+                    res.send("location added");
+                });
+        }
     } catch (err) {
         res.status(422).send(err);
     }
@@ -63,20 +64,28 @@ router.get('/getNearbyUsers', auth, async (req, res) => {
     const radius = process.env.radius || 2;
     const _user = req.user._id;
     try {
-        await Location.findById(_user)
-            .then(resp => {
-                let validUsers = [];
-                Location.find({}, (err, users) => {
-                    if (err) {
-                        res.send(validUsers);
-                    }
-                    users.map(user => {
-                        if (isWithinRadius(resp, user, radius))
-                            validUsers.push(user);
-                    })
-                })
-                res.send(validUsers);
-            })
+        const userlocation = await Location.findOne({ _user: _user });
+        if (userlocation) {
+            let validUsers = [];
+            const alllocations = await Location.find({});
+            for (let i = 0; i < alllocations.length; i++) {
+                if (alllocations[i]._user.toString() === req.user._id.toString()) continue;
+                if (haversine({ latitude: userlocation.latitude, longitude: userlocation.longitude },
+                    { latitude: alllocations[i].latitude, longitude: alllocations[i].longitude }, { threshold: radius })) {
+                    let location = haversine({ latitude: userlocation.latitude, longitude: userlocation.longitude },
+                        { latitude: alllocations[i].latitude, longitude: alllocations[i].longitude })
+                    let user = await User.findById(alllocations[i]._user);
+                    validUsers.push({
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        age: user.age,
+                        distance: location
+                    });
+                }
+            }
+            res.status(200).send(validUsers);
+        }
+        else res.status(200).send([]);
     } catch (err) {
         res.status(422).send(err);
     }
