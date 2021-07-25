@@ -144,6 +144,25 @@ export async function toggleShare(item) {
     }
 }
 
+
+// api for block
+export async function handleBlock(item) {
+    try {
+        const token = await getStorage();
+        const res = await fetch(`${baseUrl}/block/`, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                ...headers,
+                "Authorization": "Bearer " + token
+            },
+        });
+        return await res.json();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 // code for fetching list of matched users as per same trip
 export async function getMatchedUsers(tripId) {
     try {

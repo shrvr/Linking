@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { GiftedChat } from "react-native-gifted-chat";
-
+import { GiftedChat, Bubble, Send, InputToolbar } from "react-native-gifted-chat";
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { getChats, postChats } from "../../api/index";
 
 import {
@@ -30,7 +30,7 @@ export default function ChatWindow(route) {
                 createdAt: chat.createdAt,
                 user: {
                     _id: chat.sender == senderID  ? 1 : 2,
-                    name: "gurjit",
+                    name: "user",
                 }
             }
         })
@@ -60,7 +60,7 @@ export default function ChatWindow(route) {
           createdAt: toBePosted.createdAt,
           user: {
             _id: 1,
-            name: "gurjit",
+            name: "user",
           }
         }, previousMessages)
     
@@ -73,6 +73,42 @@ export default function ChatWindow(route) {
   }, []);
 
 
+  const scrollToBottomComponent = () => {
+    return(
+      <AntDesign name="downcircle" size={32} color="#4285F4" />
+    )
+  }
+
+  const renderBubble = (props) => {
+    return (
+      <Bubble 
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: "#4285F4"
+          },
+          
+          left:{
+            backgroundColor: "#F0F8FF"
+          }
+        }}
+        textStyle={{
+          right: {
+            color: "#fff"
+          }    
+        }} 
+      />
+    )
+  }
+
+  const renderSend = () => {
+    return (
+      <View style={{ padding: 0}}>
+          <MaterialCommunityIcons name="send-circle" size={48} color="#4285F4" />
+      </View>
+    )
+  }
+
   return (
     <View style={{ flex: 1 }}>
       
@@ -84,7 +120,18 @@ export default function ChatWindow(route) {
           
         }}
         inverted={false}
-        
+        scrollToBottom
+        scrollToBottomComponent={scrollToBottomComponent}
+        renderBubble={renderBubble}
+        listViewProps={{
+          style: {
+            backgroundColor: 'white',
+            padding: 0,
+            // margin:8
+          },
+        }}
+        // alwaysShowSend
+        // renderSend={renderSend}
       />
     </View>
   );
