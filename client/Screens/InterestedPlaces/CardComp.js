@@ -42,7 +42,14 @@ const CardComp = (props) => {
 
   // method for displaying matched users
   const displayMatchedUsers = () => {
-    props.navigateTo.push("MatchedUsersList", { tripId: props._trip });
+    if(isEnabled){
+       props.navigateTo.push("MatchedUsersList", { tripId: props._trip });
+    }
+    else{
+      Toast.show("Enable Sharing to See Matched Users", {
+        duration: Toast.durations.SHORT,
+      });
+    }
   };
 
   return (
@@ -63,7 +70,7 @@ const CardComp = (props) => {
             value={isEnabled}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={displayMatchedUsers} disabled={!isEnabled}>
+        <TouchableOpacity onPress={displayMatchedUsers} /*disabled={!isEnabled}*/>
           <AntDesign name="search1" size={30} color="#02495d" />
         </TouchableOpacity>
         <TouchableOpacity>
