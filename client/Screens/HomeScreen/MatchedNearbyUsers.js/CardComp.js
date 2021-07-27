@@ -60,6 +60,7 @@ const CardComp = (props) => {
                 </View>
             </View>
             <TouchableOpacity
+                style={{paddingVertical: 8}}
                 onPress={routeToChatWindow}>
                 <MaterialIcons name="chat" size={40} color="#02495d" />
             </TouchableOpacity>

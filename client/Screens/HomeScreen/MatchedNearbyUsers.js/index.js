@@ -79,7 +79,7 @@ export default function MatchedNearbyUsers({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: 'row', justifyContent: "center" }}>
+            <View style={{ flexDirection: 'row', justifyContent: "center", paddingTop: 8 }}>
                 <Text style={{ fontSize: 16 }}>Location: </Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
