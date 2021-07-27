@@ -39,6 +39,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Places" component={Places} />
             <HomeStack.Screen name="MapView" component={MapView} />
             <HomeStack.Screen name="MatchedUsersList" component={MatchedNearbyUsers} />
+            <HomeStack.Screen name="ChatWindow" component={ChatWindow}/>
         </HomeStack.Navigator>
     );
 }
