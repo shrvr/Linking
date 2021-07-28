@@ -79,7 +79,8 @@ router.get('/getNearbyUsers', auth, async (req, res) => {
                         firstName: user.firstName,
                         lastName: user.lastName,
                         age: user.age,
-                        distance: location
+                        distance: location,
+                        _id: user._id
                     });
                 }
             }
