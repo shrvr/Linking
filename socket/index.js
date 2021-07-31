@@ -1,8 +1,12 @@
 let users = []
 
 addUser = (userId, socketId) => {
-    !users.some(user => user.userId === userId)
-        && users.push({ userId, socketId });
+    if(users.some(user => user.userId === userId)) {
+        const index = users.findIndex(user => user.userId === userId);
+        users[index].socketId = socketId;
+    } else {
+        users.push({ userId, socketId });
+    }
 }
 
 removeUser = (socketId) => {
@@ -20,17 +24,22 @@ module.exports = (io) => {
 
         //add user to socket list
         socket.on("addUser", (userId) => {
-            addUser(userId);
+            addUser(userId, socket.id);
             io.emit("getUsers", users)
         })
 
         //send message
         socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+            console.log(users)
+            console.log(receiverId);
             const user = getUser(receiverId);
-            io.to(user.socketId).emit("getMessage", {
-                senderId,
-                text
-            })
+            console.log(user)
+            if(user !== undefined) {
+                io.to(user.socketId).emit("getMessage", {
+                    senderId,
+                    text
+                })
+            }
         })
 
         //user disconnected
