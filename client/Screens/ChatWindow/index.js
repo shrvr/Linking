@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { GiftedChat, Bubble, Send, InputToolbar } from "react-native-gifted-chat";
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import {io} from "socket.io-client";
 import { getChats, postChats } from "../../api/index";
 
 import {
@@ -14,9 +15,28 @@ import {
 export default function ChatWindow(route) {
 
   // fetching converID from current sent route
-  const { conversationID, senderID } = route.route.params;
+  const { conversationID, senderID, receiverID } = route.route.params;
    
   const [messages, setMessages] = useState([]);
+  const [arrivalMsg, setArrivalMsg] = useState(null);
+  const socket = useRef(null);
+
+  useEffect(() => {
+    socket.current = io("ws://enigmatic-temple-22499.herokuapp.com",{ transports: ['websocket', 'polling', 'flashsocket'] });
+    socket.current.on("getMessage", (data) => {
+      setArrivalMsg(data.text)
+    })
+  }, [])
+
+  useEffect(() => {
+    if(arrivalMsg !== null) {
+      console.log(arrivalMsg.text)
+      setMessages((previousMessages) =>
+        GiftedChat.append( arrivalMsg, previousMessages)
+      );
+    }  
+  }, [arrivalMsg])
+
   useEffect(() => {
 
     async function fetchChats(){
@@ -36,6 +56,10 @@ export default function ChatWindow(route) {
         })
         console.log(formattedChats);
         setMessages( formattedChats );
+        socket.current.emit("addUser", senderID)
+        socket.current.on("getUsers", users=>{
+          console.log(users)
+        })
     }
     fetchChats();
 
@@ -43,17 +67,17 @@ export default function ChatWindow(route) {
   }, []);
 
   const onSend = useCallback((nMessages = []) => {
-      console.log("len-msg",nMessages)
+    console.log("len-msg",nMessages)
 
-      let toBePosted;
-      async function toPost(){
-        toBePosted = await postChats({
-            "conversationId": conversationID,
-            "sender": senderID,
-            "text": nMessages[0].text
-        })
+    let toBePosted;
+    async function toPost(){
+      toBePosted = await postChats({
+          "conversationId": conversationID,
+          "sender": senderID,
+          "text": nMessages[0].text
+      })
 
-        setMessages((previousMessages) =>
+      setMessages((previousMessages) =>
         GiftedChat.append( {
           _id: 2,
           text: toBePosted.text,
@@ -63,13 +87,22 @@ export default function ChatWindow(route) {
             name: "user",
           }
         }, previousMessages)
-    
-    );
-    console.log(messages)
-      }
-      toPost();
-        
-    
+      );
+      socket.current.emit("sendMessage", {
+        senderId: senderID,
+        receiverId: receiverID,
+        text: {
+          _id: 1,
+          text: toBePosted.text,
+          createdAt: toBePosted.createdAt,
+          user: {
+            _id: 2,
+          }
+        }
+      })
+      console.log(messages)
+    }
+    toPost();
   }, []);
 
 
