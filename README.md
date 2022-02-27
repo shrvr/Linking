@@ -20,53 +20,53 @@ Mobile App Images:
 
 SignIn Screen:
 
-<img src="https://drive.google.com/uc?id=1PAAgva-YeP9sE5PkTYZ0cyrYotiBPis_" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1PAAgva-YeP9sE5PkTYZ0cyrYotiBPis_" alt="alt text" width="300"/>
 
 
 SignUp Screen:
 
-<img src="https://drive.google.com/uc?id=1xGASCh41ZWzHQX6ueP2CPH8uoN-PWQNa" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1xGASCh41ZWzHQX6ueP2CPH8uoN-PWQNa" alt="alt text" width="300"/>
 
 Terms and Condition Screen:
 
-<img src="https://drive.google.com/uc?id=1e4E180iRClbePFRymMkkTq1XtVI4muhd" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1e4E180iRClbePFRymMkkTq1XtVI4muhd" alt="alt text" width="300"/>
 
 Home Screen:
 
-<img src="https://drive.google.com/uc?id=1nEEjP9xgpZL7OphWztLK2CcE0KLb44gr" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1nEEjP9xgpZL7OphWztLK2CcE0KLb44gr" alt="alt text" width="300"/>
 
 Places List Screen:
 
-<img src="https://drive.google.com/uc?id=1YkzxU8zdh0pgPPbSVyzSLauRDHfGzHaU" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1YkzxU8zdh0pgPPbSVyzSLauRDHfGzHaU" alt="alt text" width="300"/>
 
 Map View Screen:
 
-<img src="https://drive.google.com/uc?id=1-WFFwEelvOrntgyddXbRxeluNMdGwP3H" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1-WFFwEelvOrntgyddXbRxeluNMdGwP3H" alt="alt text" width="300"/>
 
 Map View with User Selected Interested Place: 
 
-<img src="https://drive.google.com/uc?id=1j_5CxJPONUMHQjeCZV3nOlxPXKChNqfP" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1j_5CxJPONUMHQjeCZV3nOlxPXKChNqfP" alt="alt text" width="300"/>
 
 Interested Places Screen:
 
-<img src="https://drive.google.com/uc?id=1i7PbK-XI3pzlXyEM5og3A-nShIF002TJ" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1i7PbK-XI3pzlXyEM5og3A-nShIF002TJ" alt="alt text" width="300"/>
 
 Matched User List for Same Interested Places: 
 
-<img src="https://drive.google.com/uc?id=1t4HbiJGbkRxg7V_C8i0EaCwxjvS5tJ1l" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1t4HbiJGbkRxg7V_C8i0EaCwxjvS5tJ1l" alt="alt text" width="300"/>
 
 Matched User List for Nearby Users with toggle off to disallow to share there location:
 
-<img src="https://drive.google.com/uc?id=1gYf9GU7UrF91fqB8yjC0oPFtUbuamt6o" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1gYf9GU7UrF91fqB8yjC0oPFtUbuamt6o" alt="alt text" width="300"/>
 
 Matched User List for Nearby Users within 5km:
 
-<img src="https://drive.google.com/uc?id=1mSBkQKnrF-t940KzBrgNw8yg3455Yh87" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1mSBkQKnrF-t940KzBrgNw8yg3455Yh87" alt="alt text" width="300"/>
 
 Chat History Screen:
 
-<img src="https://drive.google.com/uc?id=18yGzTGvYN73bOYTIBWsXF1OXobldVArH" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=18yGzTGvYN73bOYTIBWsXF1OXobldVArH" alt="alt text" width="300"/>
 
 Chat Window Screen:
 
-<img src="https://drive.google.com/uc?id=1mT_SoiBd8zSuS8-a3TMJIlchkVMUsHhz" alt="alt text" width="200"/>
+<img src="https://drive.google.com/uc?id=1mT_SoiBd8zSuS8-a3TMJIlchkVMUsHhz" alt="alt text" width="300"/>
